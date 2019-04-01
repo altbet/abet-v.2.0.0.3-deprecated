@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Altbet
+Comment=Altbet P2P Cryptocurrency
+Comment[fr]=Altbet, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Altbet, eşten eşe kriptografik sanal para birimi
+Exec=altbet-qt %u
+Terminal=false
+Type=Application
+Icon=altbet128
+MimeType=x-scheme-handler/altbet;
+Categories=Office;Finance;

@@ -1,0 +1,26 @@
+# /etc/conf.d/altbetd: config file for /etc/init.d/altbetd
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/altbet/altbet.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/altbetd"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/altbetd.pid"
+
+# Where to write altbetd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/altbetd"
+
+# User and group to own altbetd process
+#BITCOIND_USER="altbet"
+#BITCOIND_GROUP="altbet"
+
+# Path to altbetd executable
+#BITCOIND_BIN="/usr/bin/altbetd"
+
+# Nice value to run altbetd under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""
