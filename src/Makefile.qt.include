@@ -357,9 +357,7 @@ RES_IMAGES = \
   qt/res/images/downArrow_small.png \
   qt/res/images/qtreeview_selected.png \
   qt/res/images/splash.png \
-  qt/res/images/splash@2x.png \
   qt/res/images/splash_testnet.png \
-  qt/res/images/splash_testnet@2x.png \
   qt/res/images/upArrow.png \
   qt/res/images/upArrow_small.png \
   qt/res/images/walletFrame.png \
