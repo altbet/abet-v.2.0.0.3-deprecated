@@ -359,7 +359,6 @@ RES_IMAGES = \
   qt/res/images/splash.png \
   qt/res/images/upArrow.png \
   qt/res/images/upArrow_small.png \
-  qt/res/images/walletFrame.png \
   qt/res/images/walletFrame_bg.png \
   	qt/res/images/open_00.png \
 	qt/res/images/open_01.png \
