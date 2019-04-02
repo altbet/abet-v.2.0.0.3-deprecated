@@ -251,7 +251,6 @@ RES_ICONS = \
   qt/res/icons/quit.png \
   qt/res/icons/receive.png \
   qt/res/icons/receive_off.png \
-  qt/res/icons/receive_dark.png \
   qt/res/icons/privacy.png \
   qt/res/icons/privacy_off.png \
   qt/res/icons/remove.png \
@@ -259,7 +258,6 @@ RES_ICONS = \
   qt/res/icons/tx_staked.png \
   qt/res/icons/send.png \
   qt/res/icons/send_off.png \
-  qt/res/icons/send_dark.png \
   qt/res/icons/staking_active.png \
   qt/res/icons/staking_inactive.png \
   qt/res/icons/synced.png \
@@ -356,62 +354,19 @@ RES_IMAGES = \
   qt/res/images/about.png \
   qt/res/images/altbet_logo_horizontal.png \
   qt/res/images/downArrow.png \
-  qt/res/images/downArrow_dark.png \
-  qt/res/images/downArrow_small_dark.png \
   qt/res/images/downArrow_small.png \
-  qt/res/images/leftArrow_small_dark.png \
   qt/res/images/qtreeview_selected.png \
-  qt/res/images/rightArrow_small_dark.png \
   qt/res/images/splash.png \
-  qt/res/images/splash@2x.png \
-  qt/res/images/splash_testnet.png \
-  qt/res/images/splash_testnet@2x.png \
   qt/res/images/upArrow.png \
   qt/res/images/upArrow_small.png \
   qt/res/images/upArrow_small_dark.png \
-  qt/res/images/walletFrame.png \
-  qt/res/images/walletFrame_bg.png \
-  	qt/res/images/open_00.png \
-	qt/res/images/open_01.png \
-	qt/res/images/open_02.png \
-	qt/res/images/open_03.png \
-	qt/res/images/open_04.png \
-	qt/res/images/open_05.png \
-	qt/res/images/open_06.png \
-	qt/res/images/open_07.png \
-	qt/res/images/open_08.png \
-	qt/res/images/open_09.png \
-	qt/res/images/open_10.png \
-	qt/res/images/open_20.png \
-	qt/res/images/open_21.png \
-	qt/res/images/open_22.png \
-	qt/res/images/open_23.png \
-	qt/res/images/open_24.png \
-	qt/res/images/open_25.png \
-	qt/res/images/open_26.png \
-	qt/res/images/open_27.png \
-	qt/res/images/open_28.png \
-	qt/res/images/open_29.png \
-	qt/res/images/open_30.png \
-	qt/res/images/open_31.png \
-	qt/res/images/open_32.png \
-	qt/res/images/open_33.png \
-	qt/res/images/open_34.png \
-	qt/res/images/open_35.png \
-	qt/res/images/open_36.png \
-	qt/res/images/open_37.png \
-	qt/res/images/open_38.png \
-	qt/res/images/open_39.png \
-	qt/res/images/open_40.png \
-	qt/res/images/open_41.png \
-	qt/res/images/open_42.png \
-	qt/res/images/open_43.png \
-	qt/res/images/open_44.png \
-	qt/res/images/open_45.png \
-	qt/res/images/open_46.png \
-	qt/res/images/open_47.png \
-	qt/res/images/open_48.png \
-	qt/res/images/open_49.png
+  qt/res/images/rightArrow_small.png \
+  qt/res/images/rightArrow_small_dark.png \
+  qt/res/images/leftArrow_small_dark.png \
+  qt/res/images/leftArrow_small.png \
+  qt/res/images/downArrow.png \
+  qt/res/images/downArrow_small.png \
+  qt/res/images/downArrow_small_dark.png 
 
 RES_CSS = \
   qt/res/css/default.css
