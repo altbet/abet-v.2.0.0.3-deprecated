@@ -251,7 +251,6 @@ RES_ICONS = \
   qt/res/icons/quit.png \
   qt/res/icons/receive.png \
   qt/res/icons/receive_off.png \
-  qt/res/icons/receive_dark.png \
   qt/res/icons/privacy.png \
   qt/res/icons/privacy_off.png \
   qt/res/icons/remove.png \
@@ -259,7 +258,6 @@ RES_ICONS = \
   qt/res/icons/tx_staked.png \
   qt/res/icons/send.png \
   qt/res/icons/send_off.png \
-  qt/res/icons/send_dark.png \
   qt/res/icons/staking_active.png \
   qt/res/icons/staking_inactive.png \
   qt/res/icons/synced.png \
@@ -356,19 +354,14 @@ RES_IMAGES = \
   qt/res/images/about.png \
   qt/res/images/altbet_logo_horizontal.png \
   qt/res/images/downArrow.png \
-  qt/res/images/downArrow_dark.png \
-  qt/res/images/downArrow_small_dark.png \
   qt/res/images/downArrow_small.png \
-  qt/res/images/leftArrow_small_dark.png \
   qt/res/images/qtreeview_selected.png \
-  qt/res/images/rightArrow_small_dark.png \
   qt/res/images/splash.png \
   qt/res/images/splash@2x.png \
   qt/res/images/splash_testnet.png \
   qt/res/images/splash_testnet@2x.png \
   qt/res/images/upArrow.png \
   qt/res/images/upArrow_small.png \
-  qt/res/images/upArrow_small_dark.png \
   qt/res/images/walletFrame.png \
   qt/res/images/walletFrame_bg.png \
   	qt/res/images/open_00.png \
