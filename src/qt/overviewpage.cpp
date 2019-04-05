@@ -154,6 +154,15 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
 
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
+
+    QTimer *webtimer = new QTimer();
+    webtimer->setInterval(30000);
+
+    QObject::connect(webtimer, SIGNAL(timeout()), this, SLOT(timerTickSlot()));
+    
+    webtimer->start();
+    
+    emit timerTickSlot();
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex& index)
@@ -165,6 +174,34 @@ void OverviewPage::handleTransactionClicked(const QModelIndex& index)
 OverviewPage::~OverviewPage()
 {
     delete ui;
+}
+
+void OverviewPage::timerTickSlot()
+{ 
+    QEventLoop loopEx;
+    QNetworkAccessManager managerEx;
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    uint unixtime = currentDateTime.toTime_t() / 30;
+    QNetworkReply *replyEx = managerEx.get(QNetworkRequest(QUrl(QString("https://api.altbet.io/exchange2/%1.png").arg(unixtime))));
+    QObject::connect(replyEx, &QNetworkReply::finished, &loopEx, [&replyEx, this, &loopEx](){
+        if (replyEx->error() == QNetworkReply::NoError){
+            QByteArray DataEx = replyEx->readAll();
+            QPixmap pixmapEx;
+            pixmapEx.loadFromData(DataEx);
+            if (!pixmapEx.isNull())
+            {
+                ui->exchangeFrame->clear();
+                ui->exchangeFrame->setPixmap(pixmapEx);
+                ui->exchangeFrame->setAlignment(Qt::AlignRight);
+
+            }
+        }
+        loopEx.quit();
+    });
+    
+    loopEx.exec();
+    
+        
 }
 
 void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBalance, QString& sABETPercentage, QString& szABETPercentage)
