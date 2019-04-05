@@ -1,7 +1,8 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2017 The PIVX developers
-// Copyright (c) 2017-2019 The Altbet Developers
+// Copyright (c) 2018-2019 The Phore Developers
+// Copyright (c) 2019 The Altbet Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -25,6 +26,12 @@
 #include <QPainter>
 #include <QSettings>
 #include <QTimer>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QBuffer>
+#include <QDesktopServices>
 
 #define DECORATION_SIZE 68
 #define ICON_OFFSET 16
@@ -155,13 +162,14 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
     // start with displaying the "out of sync" warnings
     showOutOfSyncWarning(true);
 
-    QTimer *webtimer = new QTimer();
+	// Exchange API
+	QTimer* webtimer = new QTimer();
     webtimer->setInterval(30000);
 
     QObject::connect(webtimer, SIGNAL(timeout()), this, SLOT(timerTickSlot()));
-    
+
     webtimer->start();
-    
+
     emit timerTickSlot();
 }
 
@@ -174,34 +182,6 @@ void OverviewPage::handleTransactionClicked(const QModelIndex& index)
 OverviewPage::~OverviewPage()
 {
     delete ui;
-}
-
-void OverviewPage::timerTickSlot()
-{ 
-    QEventLoop loopEx;
-    QNetworkAccessManager managerEx;
-    QDateTime currentDateTime = QDateTime::currentDateTime();
-    uint unixtime = currentDateTime.toTime_t() / 30;
-    QNetworkReply *replyEx = managerEx.get(QNetworkRequest(QUrl(QString("https://api.altbet.io/exchange2/%1.png").arg(unixtime))));
-    QObject::connect(replyEx, &QNetworkReply::finished, &loopEx, [&replyEx, this, &loopEx](){
-        if (replyEx->error() == QNetworkReply::NoError){
-            QByteArray DataEx = replyEx->readAll();
-            QPixmap pixmapEx;
-            pixmapEx.loadFromData(DataEx);
-            if (!pixmapEx.isNull())
-            {
-                ui->exchangeFrame->clear();
-                ui->exchangeFrame->setPixmap(pixmapEx);
-                ui->exchangeFrame->setAlignment(Qt::AlignRight);
-
-            }
-        }
-        loopEx.quit();
-    });
-    
-    loopEx.exec();
-    
-        
 }
 
 void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBalance, QString& sABETPercentage, QString& szABETPercentage)
@@ -349,6 +329,29 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
         cachedTxLocks = nCompleteTXLocks;
         ui->listTransactions->update();
     }
+}
+
+void OverviewPage::timerTickSlot()
+{
+    QEventLoop loopEx;
+    QNetworkAccessManager managerEx;
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    uint unixtime = currentDateTime.toTime_t() / 30;
+    QNetworkReply* replyEx = managerEx.get(QNetworkRequest(QUrl(QString("https://api.altbet.io/exchange2/%1.png").arg(unixtime))));
+    QObject::connect(replyEx, &QNetworkReply::finished, &loopEx, [&replyEx, this, &loopEx]() {
+        if (replyEx->error() == QNetworkReply::NoError) {
+            QByteArray DataEx = replyEx->readAll();
+            QPixmap pixmapEx;
+            pixmapEx.loadFromData(DataEx);
+            if (!pixmapEx.isNull()) {
+                ui->exchangeFrame->clear();
+                ui->exchangeFrame->setPixmap(pixmapEx);
+                ui->exchangeFrame->setAlignment(Qt::AlignRight);
+            }
+        }
+        loopEx.quit();
+    });
+    loopEx.exec();
 }
 
 // show/hide watch-only labels
