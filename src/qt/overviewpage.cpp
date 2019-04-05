@@ -26,6 +26,12 @@
 #include <QPainter>
 #include <QSettings>
 #include <QTimer>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QBuffer>
+#include <QDesktopServices>
 
 #define DECORATION_SIZE 68
 #define ICON_OFFSET 16
