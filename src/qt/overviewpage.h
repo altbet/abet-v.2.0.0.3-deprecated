@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2019 The Altbet Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -41,7 +42,7 @@ public slots:
                     const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
                     const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
     void timerTickSlot();
-    
+
 signals:
     void transactionClicked(const QModelIndex& index);
 
