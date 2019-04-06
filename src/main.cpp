@@ -2815,7 +2815,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         int nStartTreasuryBlock = 192021;
         int nTreasuryBlockStep = 1440;
 
-
         bool IsTreasuryBlock(int nHeight)
         {
             // Spork to allow dev fee to be turned on and off
@@ -2823,7 +2822,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             if (nHeight < nStartTreasuryBlock)
                 return false;
             else if (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT))
-                return false;
+                return true;
             else if ((nHeight - nStartTreasuryBlock) % nTreasuryBlockStep == 0)
                 return true;
             else
