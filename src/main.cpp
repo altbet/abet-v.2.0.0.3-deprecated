@@ -5326,7 +5326,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                         if (it == mapStakeSpent.end()) {
                             return false;
                         }
-						if (it->second < pindexPrev->nHeight) {
+                        if (it->second < pindexPrev->nHeight) {
                             return false;
                         }
                     }
@@ -5338,7 +5338,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     CBlockIndex* last = pindexPrev;
 
                     // while that block is not on the main chain
-					while (!chainActive.Contains(last) && last != NULL) {
+                    while (!chainActive.Contains(last) && last != NULL) {
                         CBlock bl;
                         ReadBlockFromDisk(bl, last);
                         // loop through every spent input from said block

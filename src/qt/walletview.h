@@ -69,10 +69,9 @@ private:
     SendCoinsDialog* sendCoinsPage;
     BlockExplorer* explorerWindow;
     MasternodeList* masternodeListPage;
-    QWidget* proposalListPage;	
+    ProposalList *proposalListPage;	
 
     TransactionView* transactionView;
-    ProposalList* proposalList;
 
     QProgressDialog* progressDialog;
     QLabel* transactionSum;
