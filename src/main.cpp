@@ -6605,8 +6605,12 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
                 }
                 // broken releases with wrong blockchain data
-                if (pfrom->cleanSubVer == "/Altbet Core:1.1.0/" ||
-                    pfrom->cleanSubVer == "/Altbet Core:1.3.0/") {
+                if (pfrom->cleanSubVer == "/Altbet Core:1.1.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.2.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.2.0.1/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.3.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.3.0.1/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.3.1.0/") { // Archived pivx 2.3 source
                     LOCK(cs_main);
                     Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
                     return false;
