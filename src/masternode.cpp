@@ -24,7 +24,7 @@ CAmount GetMasternodeCollateral()
 	{
 		return Params().MasternodeCollateralAmtNew();
 	} else {
-		return Params().MasternodeCollateralAmt() || Params().MasternodeCollateralAmtNew();
+		return Params().MasternodeCollateralAmt();
 	}
 	
 }
