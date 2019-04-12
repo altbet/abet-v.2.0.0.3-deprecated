@@ -15,7 +15,7 @@
 // Initial Rewards Fix on 72001 by TFinch
 // Exchange version, GUI update with chart 72004 TFinch
 // Min Stake Amount changed to 15 coins 72005 TFinch
-static const int PROTOCOL_VERSION = 72006;
+static const int PROTOCOL_VERSION = 72007;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
