@@ -8,7 +8,10 @@
 #ifndef BITCOIN_QT_CLIENTMODEL_H
 #define BITCOIN_QT_CLIENTMODEL_H
 
+#include "amount.h"
+#include "sync.h"
 #include <QObject>
+#include <map>
 #include <QDateTime>
 
 class AddressTableModel;
@@ -37,6 +40,12 @@ enum NumConnections {
     CONNECTIONS_OUT = (1U << 1),
     CONNECTIONS_ALL = (CONNECTIONS_IN | CONNECTIONS_OUT),
 };
+
+extern std::map<std::string, CAmount> masternodeRewards;
+//extern CAmount posMin, posMax, posMedian;
+//extern int block24hCount;
+extern CAmount lockedCoin;
+extern double roi1;
 
 /** Model for Altbet network client. */
 class ClientModel : public QObject
@@ -90,6 +99,7 @@ private:
 
     QTimer* pollTimer;
     QTimer* pollMnTimer;
+	//QTimer* poll24hStatsTimer;
 
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
@@ -100,6 +110,7 @@ signals:
     void strMasternodesChanged(const QString& strMasternodes);
     void alertsChanged(const QString& warnings);
     void bytesChanged(quint64 totalBytesIn, quint64 totalBytesOut);
+	//void stats24hUpdated();
 
     //! Fired when a message should be reported to the user
     void message(const QString& title, const QString& message, unsigned int style);
@@ -113,6 +124,7 @@ public slots:
     void updateNumConnections(int numConnections);
     void updateAlert(const QString& hash, int status);
     void updateBanlist();
+	//void update24hStatsTimer();
 };
 
 #endif // BITCOIN_QT_CLIENTMODEL_H

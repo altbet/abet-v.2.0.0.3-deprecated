@@ -21,6 +21,11 @@
 #include "transactionrecord.h"
 #include "transactiontablemodel.h"
 #include "walletmodel.h"
+#include "masternodeman.h"
+#include "walletmodel.h"
+#include "rpcblockchain.cpp"
+#include "chainparams.h"
+#include "chainparams.h"
 
 #include <QAbstractItemDelegate>
 #include <QPainter>
@@ -63,7 +68,8 @@ public:
         int halfheight = (mainRect.height() - 2 * ypad) / 2;
         QRect amountRect(mainRect.left() + xspace, mainRect.top() + ypad, mainRect.width() - xspace - ICON_OFFSET, halfheight);
         QRect addressRect(mainRect.left() + xspace, mainRect.top() + ypad + halfheight, mainRect.width() - xspace, halfheight);
-        icon.paint(painter, decorationRect); 
+        icon.paint(painter, decorationRect);
+
         QDateTime date = index.data(TransactionTableModel::DateRole).toDateTime();
         QString address = index.data(Qt::DisplayRole).toString();
         qint64 amount = index.data(TransactionTableModel::AmountRole).toLongLong();
@@ -135,9 +141,6 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
                                               currentBalance(-1),
                                               currentUnconfirmedBalance(-1),
                                               currentImmatureBalance(-1),
-                                              currentZerocoinBalance(-1),
-                                              currentUnconfirmedZerocoinBalance(-1),
-                                              currentimmatureZerocoinBalance(-1),
                                               currentWatchOnlyBalance(-1),
                                               currentWatchUnconfBalance(-1),
                                               currentWatchImmatureBalance(-1),
@@ -146,6 +149,14 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
 {
     nDisplayUnit = 0; // just make sure it's not unitialized
     ui->setupUi(this);
+
+	/*
+	ui->pushButton_Website->setIcon(QIcon(":/icons/website"));
+	ui->pushButton_Discord->setIcon(QIcon(":/icons/discord"));
+	ui->pushButton_Github->setIcon(QIcon(":/icons/github"));
+	ui->pushButton_Twitter->setIcon(QIcon(":/icons/twitter"));
+	ui->pushButton_Explorer->setIcon(QIcon(":/icons/explorer"));
+	*/
 
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
@@ -165,12 +176,18 @@ OverviewPage::OverviewPage(QWidget* parent) : QWidget(parent),
 	// Exchange API
 	QTimer* webtimer = new QTimer();
     webtimer->setInterval(30000);
-
     QObject::connect(webtimer, SIGNAL(timeout()), this, SLOT(timerTickSlot()));
-
     webtimer->start();
-
     emit timerTickSlot();
+
+	//Masternode Information
+    timerinfo_mn = new QTimer(this);
+    connect(timerinfo_mn, SIGNAL(timeout()), this, SLOT(updateMasternodeInfo()));
+    timerinfo_mn->start(1000);
+
+    timerinfo_blockchain = new QTimer(this);
+    connect(timerinfo_blockchain, SIGNAL(timeout()), this, SLOT(updatBlockChainInfo()));
+    timerinfo_blockchain->start(1000); //30sec
 }
 
 void OverviewPage::handleTransactionClicked(const QModelIndex& index)
@@ -184,40 +201,12 @@ OverviewPage::~OverviewPage()
     delete ui;
 }
 
-void OverviewPage::getPercentage(CAmount nUnlockedBalance, CAmount nZerocoinBalance, QString& sABETPercentage, QString& szABETPercentage)
-{
-    int nPrecision = 2;
-    double dzPercentage = 0.0;
-
-    if (nZerocoinBalance <= 0){
-        dzPercentage = 0.0;
-    }
-    else{
-        if (nUnlockedBalance <= 0){
-            dzPercentage = 100.0;
-        }
-        else{
-            dzPercentage = 100.0 * (double)(nZerocoinBalance / (double)(nZerocoinBalance + nUnlockedBalance));
-        }
-    }
-
-    double dPercentage = 100.0 - dzPercentage;
-    
-    szABETPercentage = "(" + QLocale(QLocale::system()).toString(dzPercentage, 'f', nPrecision) + " %)";
-    sABETPercentage = "(" + QLocale(QLocale::system()).toString(dPercentage, 'f', nPrecision) + " %)";
-    
-}
-
-void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance, 
-                              const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
+void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                               const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance)
 {
     currentBalance = balance;
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
-    currentZerocoinBalance = zerocoinBalance;
-    currentUnconfirmedZerocoinBalance = unconfirmedZerocoinBalance;
-    currentimmatureZerocoinBalance = immatureZerocoinBalance;
     currentWatchOnlyBalance = watchOnlyBalance;
     currentWatchUnconfBalance = watchUnconfBalance;
     currentWatchImmatureBalance = watchImmatureBalance;
@@ -228,20 +217,16 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
         nLockedBalance = pwalletMain->GetLockedCoins();
         nWatchOnlyLockedBalance = pwalletMain->GetLockedWatchOnlyBalance();
     }
+
     // ABET Balance
     CAmount nTotalBalance = balance + unconfirmedBalance;
     CAmount abetAvailableBalance = balance - immatureBalance - nLockedBalance;
     CAmount nTotalWatchBalance = watchOnlyBalance + watchUnconfBalance + watchImmatureBalance;    
     CAmount nUnlockedBalance = nTotalBalance - nLockedBalance;
-    // zABET Balance
-    CAmount matureZerocoinBalance = zerocoinBalance - unconfirmedZerocoinBalance - immatureZerocoinBalance;
-    // Percentages
-    QString szPercentage = "";
-    QString sPercentage = "";
-    getPercentage(nUnlockedBalance, zerocoinBalance, sPercentage, szPercentage);
+
     // Combined balances
-    CAmount availableTotalBalance = abetAvailableBalance + matureZerocoinBalance;
-    CAmount sumTotalBalance = nTotalBalance + zerocoinBalance;
+	CAmount availableTotalBalance = abetAvailableBalance;
+	CAmount sumTotalBalance = nTotalBalance;
 
     // ABET labels
     ui->labelBalance->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, abetAvailableBalance, false, BitcoinUnits::separatorAlways));
@@ -257,19 +242,9 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     ui->labelWatchLocked->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, nWatchOnlyLockedBalance, false, BitcoinUnits::separatorAlways));
     ui->labelWatchTotal->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, nTotalWatchBalance, false, BitcoinUnits::separatorAlways));
 
-    // zABET labels
-    ui->labelzBalance->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, zerocoinBalance, false, BitcoinUnits::separatorAlways));
-    ui->labelzBalanceUnconfirmed->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, unconfirmedZerocoinBalance, false, BitcoinUnits::separatorAlways));
-    ui->labelzBalanceMature->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, matureZerocoinBalance, false, BitcoinUnits::separatorAlways));
-    ui->labelzBalanceImmature->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, immatureZerocoinBalance, false, BitcoinUnits::separatorAlways));
-
     // Combined labels
     ui->labelBalancez->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, availableTotalBalance, false, BitcoinUnits::separatorAlways));
     ui->labelTotalz->setText(BitcoinUnits::floorHtmlWithUnitComma(nDisplayUnit, sumTotalBalance, false, BitcoinUnits::separatorAlways));
-
-    // Percentage labels
-    ui->labelABETPercent->setText(sPercentage);
-    ui->labelzABETPercent->setText(szPercentage);
 
     // Adjust bubble-help according to AutoMint settings
     QString automintHelp = tr("Current percentage of zABET.\nIf AutoMint is enabled this percentage will settle around the configured AutoMint percentage (default = 10%).\n");
@@ -288,7 +263,6 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     bool settingShowAllBalances = !settings.value("fHideZeroBalances").toBool();
     bool showSumAvailable = settingShowAllBalances || sumTotalBalance != availableTotalBalance;
     ui->labelBalanceTextz->setVisible(showSumAvailable);
-    ui->labelBalancez->setVisible(showSumAvailable);
     bool showABETAvailable = settingShowAllBalances || abetAvailableBalance != nTotalBalance;
     bool showWatchOnlyABETAvailable = watchOnlyBalance != nTotalWatchBalance;
     bool showABETPending = settingShowAllBalances || unconfirmedBalance != 0;
@@ -298,6 +272,7 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     bool showImmature = settingShowAllBalances || immatureBalance != 0;
     bool showWatchOnlyImmature = watchImmatureBalance != 0;
     bool showWatchOnly = nTotalWatchBalance != 0;
+
     ui->labelBalance->setVisible(showABETAvailable || showWatchOnlyABETAvailable);
     ui->labelBalanceText->setVisible(showABETAvailable || showWatchOnlyABETAvailable);
     ui->labelWatchAvailable->setVisible(showABETAvailable && showWatchOnly);
@@ -309,19 +284,10 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     ui->labelWatchLocked->setVisible(showABETLocked && showWatchOnly);
     ui->labelImmature->setVisible(showImmature || showWatchOnlyImmature); // for symmetry reasons also show immature label when the watch-only one is shown
     ui->labelImmatureText->setVisible(showImmature || showWatchOnlyImmature);
-    ui->labelWatchImmature->setVisible(showImmature && showWatchOnly); // show watch-only immature balance
-    bool showzABETAvailable = settingShowAllBalances || zerocoinBalance != matureZerocoinBalance;
-    bool showzABETUnconfirmed = settingShowAllBalances || unconfirmedZerocoinBalance != 0;
-    bool showzABETImmature = settingShowAllBalances || immatureZerocoinBalance != 0;
-    ui->labelzBalanceMature->setVisible(showzABETAvailable);
-    ui->labelzBalanceMatureText->setVisible(showzABETAvailable);
-    ui->labelzBalanceUnconfirmed->setVisible(showzABETUnconfirmed);
-    ui->labelzBalanceUnconfirmedText->setVisible(showzABETUnconfirmed);
-    ui->labelzBalanceImmature->setVisible(showzABETImmature);
-    ui->labelzBalanceImmatureText->setVisible(showzABETImmature);
-    bool showPercentages = ! (zerocoinBalance == 0 && nTotalBalance == 0);
-    ui->labelABETPercent->setVisible(showPercentages);
-    ui->labelzABETPercent->setVisible(showPercentages);
+    ui->labelWatchImmature->setVisible(showImmature && showWatchOnly);
+	bool showzABETAvailable = settingShowAllBalances; 
+	bool showzABETUnconfirmed = settingShowAllBalances;
+	bool showzABETImmature = settingShowAllBalances;
 
     static int cachedTxLocks = 0;
 
@@ -402,11 +368,10 @@ void OverviewPage::setWalletModel(WalletModel* model)
         ui->listTransactions->setModelColumn(TransactionTableModel::ToAddress);
 
         // Keep up to date with wallet
-        setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance(),
-                   model->getZerocoinBalance(), model->getUnconfirmedZerocoinBalance(), model->getImmatureZerocoinBalance(), 
+        setBalance(model->getBalance(), model->getUnconfirmedBalance(), model->getImmatureBalance(), 
                    model->getWatchBalance(), model->getWatchUnconfirmedBalance(), model->getWatchImmatureBalance());
         connect(model, SIGNAL(balanceChanged(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)), this, 
-                         SLOT(setBalance(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
+					SLOT(setBalance(CAmount, CAmount, CAmount, CAmount, CAmount, CAmount)));
 
         connect(model->getOptionsModel(), SIGNAL(displayUnitChanged(int)), this, SLOT(updateDisplayUnit()));
         connect(model->getOptionsModel(), SIGNAL(hideZeroBalancesChanged(bool)), this, SLOT(updateDisplayUnit()));
@@ -424,7 +389,7 @@ void OverviewPage::updateDisplayUnit()
     if (walletModel && walletModel->getOptionsModel()) {
         nDisplayUnit = walletModel->getOptionsModel()->getDisplayUnit();
         if (currentBalance != -1)
-            setBalance(currentBalance, currentUnconfirmedBalance, currentImmatureBalance, currentZerocoinBalance, currentUnconfirmedZerocoinBalance, currentimmatureZerocoinBalance,
+            setBalance(currentBalance, currentUnconfirmedBalance, currentImmatureBalance,
                 currentWatchOnlyBalance, currentWatchUnconfBalance, currentWatchImmatureBalance);
 
         // Update txdelegate->unit with the current unit
@@ -433,6 +398,90 @@ void OverviewPage::updateDisplayUnit()
         ui->listTransactions->update();
     }
 }
+
+// All credit goes to the ESB team for developing the core of this. https://github.com/BlockchainFor/ESBC2
+// TFinch has edited it to work with Altbet
+void OverviewPage::updateMasternodeInfo()
+{
+    if (masternodeSync.IsBlockchainSynced() && masternodeSync.IsSynced()) {
+        int mn1 = 0;
+        int mn2 = 0;
+        int mn3 = 0;
+        int mn4 = 0;
+        int totalmn = 0;
+        std::vector<CMasternode> vMasternodes = mnodeman.GetFullMasternodeVector();
+        for (auto& mn : vMasternodes) {
+            switch (mn.nActiveState = true) {
+            case 1:
+                mn1++;
+                break;
+            case 2:
+                mn2++;
+                break;
+            case 3:
+                mn3++;
+                break;
+            case 4:
+                mn4++;
+                break;
+            }
+        }
+        totalmn = mn1 + mn2 + mn3 + mn4;
+        ui->labelMnTotal_Value->setText(QString::number(totalmn));
+
+        // TODO: need a read actual 24h blockcount from chain
+        int BlockCount24h = 1440;
+
+        // Update ROI
+        double BlockReward = GetBlockValue(chainActive.Height());
+        double roi1 = (0.90 * BlockReward * BlockCount24h) / mn1 / COIN;
+
+        if (chainActive.Height() <= 270000 && chainActive.Height() > 280000) { //90%
+            ui->roi->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  ABET"));
+            ui->roi_1->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
+
+        } else if (chainActive.Height() > 280000) { //90%
+            ui->roi->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  ABET"));
+            ui->roi_1->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
+        }
+
+		CAmount tNodesSumm = mn1 * 5000;
+        CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
+        double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
+        //ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
+
+        // Update Timer
+        if (timerinfo_mn->interval() == 1000)
+            timerinfo_mn->setInterval(10000);
+    }
+
+    // Update Collateral Info
+    if (chainActive.Height() >= 0) {
+        ui->label_lcolat->setText("5000 ABET");
+    }
+}
+
+//All credit goes to the ESB team for developing this. https://github.com/BlockchainFor/ESBC2
+void OverviewPage::updatBlockChainInfo()
+{
+    if (masternodeSync.IsBlockchainSynced()) {
+        int CurrentBlock = (int)chainActive.Height();
+        int64_t netHashRate = chainActive.GetNetworkHashPS(24, CurrentBlock - 1);
+        double BlockReward = GetBlockValue(chainActive.Height());
+        double BlockRewardabetcoin = static_cast<double>(BlockReward / COIN);
+        double CurrentDiff = GetDifficulty();
+
+        ui->label_CurrentBlock_value->setText(QString::number(CurrentBlock));
+        ui->label_Nethash->setText(tr("Difficulty:"));
+        ui->label_Nethash_value->setText(QString::number(CurrentDiff, 'f', 4));
+        ui->label_CurrentBlockReward_value->setText(QString::number(BlockRewardabetcoin, 'f', 1));
+        ui->label_Supply_value->setText(QString::number(chainActive.Tip()->nMoneySupply / COIN).append(" ABET"));
+		//ui->label_24hBlock_value->setText(QString::number(block24hCount));
+        //ui->label_24hPoS_value->setText(QString::number(static_cast<double>(posMin) / COIN, 'f', 1).append(" | ") + QString::number(static_cast<double>(posMax) / COIN, 'f', 1));
+        //ui->label_24hPoSMedian_value->setText(QString::number(static_cast<double>(posMedian) / COIN, 'f', 1));
+    }
+}
+
 
 void OverviewPage::updateAlerts(const QString& warnings)
 {
@@ -445,3 +494,38 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
 }
+
+/*
+void OverviewPage::on_pushButton_Website_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Discord_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Telegram_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Twitter_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Reddit_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Medium_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Facebook_clicked() 
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+void OverviewPage::on_pushButton_Explorer_clicked()
+{
+    QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
+}
+*/
