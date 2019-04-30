@@ -433,22 +433,26 @@ void OverviewPage::updateMasternodeInfo()
         int BlockCount24h = 1440;
 
         // Update ROI
-        double BlockReward = GetBlockValue(chainActive.Height());
+		double BlockReward = GetBlockValue(chainActive.Height());
         double roi1 = (0.90 * BlockReward * BlockCount24h) / mn1 / COIN;
 
-        if (chainActive.Height() <= 270000 && chainActive.Height() > 280000) { //90%
-            ui->roi->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  ABET"));
-            ui->roi_1->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
 
-        } else if (chainActive.Height() > 280000) { //90%
-            ui->roi->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  ABET"));
-            ui->roi_1->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
-        }
 
-		CAmount tNodesSumm = mn1 * 5000;
-        CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
-        double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
-        //ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
+        if (IsSporkActive(SPORK_26_NEW_COLLATERAL)) {
+            CAmount tNodesSumm = mn1 * 5000;
+            CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
+            double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
+            ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
+            ui->roi_1->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  "));
+            ui->roi_2->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
+		}else{
+            CAmount tNodesSumm = mn1 * 1000;
+            CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
+            double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
+            ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
+            ui->roi_1->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  "));
+            ui->roi_2->setText(mn1 == 0 ? " " : QString::number(1000 / roi1, 'f', 1).append(" days"));
+		}
 
         // Update Timer
         if (timerinfo_mn->interval() == 1000)
@@ -456,8 +460,11 @@ void OverviewPage::updateMasternodeInfo()
     }
 
     // Update Collateral Info
-    if (chainActive.Height() >= 0) {
-        ui->label_lcolat->setText("5000 ABET");
+    if (IsSporkActive(SPORK_26_NEW_COLLATERAL)) {
+        ui->label_lcolat->setText("5000 ABET"); 
+	}else{ 
+		ui->label_lcolat->setText("1000 ABET");
+
     }
 }
 
@@ -472,8 +479,9 @@ void OverviewPage::updatBlockChainInfo()
         double CurrentDiff = GetDifficulty();
 
         ui->label_CurrentBlock_value->setText(QString::number(CurrentBlock));
-        ui->label_Nethash->setText(tr("Difficulty:"));
-        ui->label_Nethash_value->setText(QString::number(CurrentDiff, 'f', 4));
+        //ui->label_Nethash->setText(tr("Difficulty:"));
+        //ui->label_Nethash_value->setText(QString::number(CurrentDiff, 'f', 4));
+
         ui->label_CurrentBlockReward_value->setText(QString::number(BlockRewardabetcoin, 'f', 1));
         ui->label_Supply_value->setText(QString::number(chainActive.Tip()->nMoneySupply / COIN).append(" ABET"));
 		//ui->label_24hBlock_value->setText(QString::number(block24hCount));
@@ -495,7 +503,8 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
     ui->labelTransactionsStatus->setVisible(fShow);
 }
 
-/*
+/* Need to Clean this up when new Stats tab is put into wallet
+
 void OverviewPage::on_pushButton_Website_clicked()
 {
     QDesktopServices::openUrl(QUrl("", QUrl::TolerantMode));
