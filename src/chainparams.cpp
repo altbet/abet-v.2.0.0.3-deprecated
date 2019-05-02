@@ -142,6 +142,7 @@ public:
         nMasternodeCountDrift = 20;
         nMasternodeCollateralAmt = 1000;
         nMasternodeCollateralAmtNew = 5000;
+        nMasternodeCollateralGracePeriod = 305000; //Block Height
         nMinStakeInput = 15 * COIN;
         nModifierUpdateBlock = 615800;
         nMaxMoneyOut = 21000000 * COIN;
@@ -272,19 +273,21 @@ public:
         nLastPOWBlock = 200;
         nMaturity = 15;
         nMasternodeCountDrift = 4;
-        nMasternodeCollateralAmt = 1000;
+		nMasternodeCollateralAmt = 1000;
+		nMasternodeCollateralAmtNew = 5000;
+		nMasternodeCollateralGracePeriod = 305000; //Block Height
+		nMinStakeInput = 15 * COIN;
         nModifierUpdateBlock = 51197; //approx Mon, 17 Apr 2017 04:00:00 GMT
         nMaxMoneyOut = 43199500 * COIN;
-        nZerocoinStartHeight = 200;
-
-        nZerocoinLastOldParams = 250000;
+        nZerocoinStartHeight = INT_MAX;
+        nZerocoinLastOldParams = INT_MAX;
 
         //! Modify the testnet genesis block so the timestamp is valid for a later start.
-        genesis.nTime = 1524873600;
-        genesis.nNonce = 2394236;
+        genesis.nTime = 1539605437;
+        genesis.nNonce = 2918613;
 
         hashGenesisBlock = genesis.GetHash();
-        //assert(hashGenesisBlock == uint256("00000dfdec6a9190b26520e93ef5eba15a82646a47ddf8fb5be4477a836467ee"));
+        assert(hashGenesisBlock == uint256("0x0000005088ab9f67a8f3edbf670f0df1fa5702aea8eafc78307667534472c37d"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -311,9 +314,9 @@ public:
         fTestnetToBeDeprecatedFieldRPC = true;
 
         nPoolMaxTransactions = 2;
-        strSporkKey = "04cded1204a57acd6280c8499b7a2df052609dbf96546453984d632204d651d72a37013edc9d115e5a385e100eb7e867923fdd0bb7d9dc31aa1eb9d59b00c76697";
-        strObfuscationPoolDummyAddress = "xxVKdbxVogrXrPLMo2qEEyCm1GRv2KZCLy";
-        nStartMasternodePayments = 1524873600; //Fri, 09 Jan 2015 21:05:58 GMT
+        strSporkKey = "0239efda1c4227d678db60478f4a00bd2b90210805fe3faa91f8edec9f6a545dd1";
+        strObfuscationPoolDummyAddress = "Ab5bNTKMKVJWLTDCwwEEvHH9MzDhxRaL5a";
+        nStartMasternodePayments = 1539605437; //Fri, 09 Jan 2015 21:05:58 GMT
     }
     const Checkpoints::CCheckpointData& Checkpoints() const
     {
