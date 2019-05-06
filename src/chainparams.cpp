@@ -314,7 +314,8 @@ public:
         fTestnetToBeDeprecatedFieldRPC = true;
 
         nPoolMaxTransactions = 2;
-        strSporkKey = "0239efda1c4227d678db60478f4a00bd2b90210805fe3faa91f8edec9f6a545dd1";
+        strSporkKey = "023bdfaa1671a451ebb3fdf4978c7336ce9283f35733006bfe059da6cd195ecf69";
+
         strObfuscationPoolDummyAddress = "Ab5bNTKMKVJWLTDCwwEEvHH9MzDhxRaL5a";
         nStartMasternodePayments = 1539605437; //Fri, 09 Jan 2015 21:05:58 GMT
     }
