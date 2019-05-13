@@ -12,7 +12,8 @@ sudo apt-get install libboost-system-dev libboost-filesystem-dev libboost-chrono
 sudo apt-get install libzmq3-dev -y
 sudo apt-get install libminiupnpc-dev -y
 sudo apt-get install libgmp3-dev libevent-dev bsdmainutils libboost-all-dev openssl -y
+sudo apt-get install libssl1.0-dev -y
 
 ./autogen.sh
-./configure
+./configure --disable-gui-tests --disable-shared --disable-tests --disable-bench --with-gui=qt5 
 make
