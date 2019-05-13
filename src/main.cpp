@@ -6605,8 +6605,12 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     pfrom->cleanSubVer = SanitizeString(pfrom->strSubVer);
                 }
                 // broken releases with wrong blockchain data
-                if (pfrom->cleanSubVer == "/Altbet Core:1.1.0/" ||
-                    pfrom->cleanSubVer == "/Altbet Core:1.3.0/") {
+                if (pfrom->cleanSubVer == "/Altbet Core:1.1.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.2.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.2.0.1/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.3.0.0/" ||
+					pfrom->cleanSubVer == "/Altbet Core:1.3.0.1/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.3.1.0/") { // Archived pivx 2.3 source
                     LOCK(cs_main);
                     Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
                     return false;
@@ -7460,9 +7464,11 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         //       so we can leave the existing clients untouched (old SPORK will stay on so they don't see even older clients).
         //       Those old clients won't react to the changes of the other (new) SPORK because at the time of their implementation
         //       it was the one which was commented out
+		
+		// This update was done with a baby in one hand btw :) Welcome baby Holly 4-9-19
         int ActiveProtocol()
         {
-            if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
+            if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
                 return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
             return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
         }

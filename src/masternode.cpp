@@ -23,8 +23,10 @@ CAmount GetMasternodeCollateral()
 	if (IsSporkActive(SPORK_26_NEW_COLLATERAL)) 
 	{
 		return Params().MasternodeCollateralAmtNew();
+	} else {
+		return Params().MasternodeCollateralAmt();
 	}
-	return Params().MasternodeCollateralAmt();
+	
 }
 
 //Get the last hash that matches the modulus given. Processed in reverse order
