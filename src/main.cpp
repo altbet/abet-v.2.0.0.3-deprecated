@@ -1735,66 +1735,65 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             (txin.prevout.hash == uint256("0x33170ffeadcbe8d43d6be4e3eb36cd4b76a1e51fdc205d626766c69351b15676") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0x2e9c3e0a36edc022b182f98ee51ecae763514329589c773c0258610433a8b75e") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0xcd3ce0a9e0e2e0fee21942e37937e8b098c95f7935af0f66cffe1d18b85ce7f4") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0x2e63cb84cdbb58b69b3eef989026018780bc9b8e977786ae2077c9a1e4daf94b") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x44e36aec3de96c0551441b8223cedc741dfaf690e79780491e7244e3a65bfaa6") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0xb73bcba84d6799002e38fe6032a7c89767bbbc1de79f51e2f11eea11ed0d2116") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x831454f1889f9801cbd7e27b250fe3036da023a6d430aff714310c281c0fba26") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x894c43a368f5757305c24dcafadd7dc4338e05d5567d7941be117874dc8f6376") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe722c088e06fd639b93cbbce0cddee32ff13d8fbe88625e1662591c0001b0247") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x06b6dd4529ca2e06cddfced23f03ca77d79037d461eca6597e678b1d7d14ee60") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xf7af194ab19847c060a704a11f82e330fd5d74b4e81693e3f9741aadfc5242bf") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x9841fd3d883959f21cb824150587d42e0e120b43fa04ae2fa9bc3c7b7c477595") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xdd2ba804faddd2c89bd64db7f30f911102e26ddb9dbecf28bc166bf58e78a480") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x9978fad83310efc3a867897a5054f04256f7b6c5ae2e4ea6e8d4beb3be3e540e") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xca867fa4229dc3fb7bfce73b53fb0852e37349b2419de93f462b36d4b4d68eb0") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xbf01c81c239da73f0092c9d3da2fb0c7deb7239762114730540d19411f286bf6") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x420b64da0d89f1c89a515cab9fd8512673fc79e95963a8c1aca24bc01564f551") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x2ba47903ef0ea2ff407d51e6761739a47396641684bb0ca9b51fe1535062e4ce") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x56d1c477492ad55b7b812872a201efbe0045b43aa912a41b4e2b2492f909929a") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x46dff6a046aaa6cdfc5bd1262847b69e51ce6be4f7112713b16c8b3109a6baac") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe7bfb5c949f89ecc1db2f81c51fae61c8fcbf1e78bca462802b486d492af24e5") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x32f8d08fc3494b3e334371e9d9af0d58e2db4abedb91d7102d0da08efa1aa4c7") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x8244e8f1073cfe930dc3082a3615e6165c80bba367be13fa5c8b4aa0988d74c5") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xa1a9caf266291e95b0d738aa1a06654e268fd1c67c61af01e1db3e0072785a1c") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xdf8b0638379a356f9222af450532cb63d13ce69375ded0f5f61a62f33e9f2308") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe897e2623173f361575b7aeb06624c4cb72bf8cd90092ad76a6ece47a89f5f4a") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x5265429abd872da02582cff24b40c31bf1d40fd98d2703bf20714e7b5819d423") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd49e8c5645b77719c63f135991a12ad2a7cdf64851262629cada6841df4f8cc0") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xf5e49a66ccdbe88abab04bbfda36472fe4ed27ceeabeb1bd9d999b46e367ae13") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xfe50b91e5fc8495e13c2c854a812edb5048e0b9ed58eba1ec961f08d687c7d0c") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x7d56bb53059b04e1290dac0dba64af8d73d2dc01ba42022a651957063265ec5c") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x25a2e0c9d6db44df2bec3d1088dd4762e1b48dce3e94d9982cb081446bc858fb") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x51be2b9ec72fd7abc49625b731e156276caf9617b8b2876ea2903b380e2dfbed") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xdd46cb503673ac14d8267a62e0e6a90e8b94d16a03a2afde12f565e75c84e20a") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd3417efd188ff8e6401286888f76818bf7331f5ad36ad8aa9821d0115c949bf4") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x9d50cfd3b440acff022f0d145fb1b39f6e7048766253acad83c6a678ac9c87ed") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe0cbafcf75e1e824e9bbcc45e333db035cbe11ff173c8060acb3f122405e9168") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xfcb4b7ed10ea64eb0acb881021f7bada3d7f40882259a7bd377feb3f099d0d74") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xc1b7e775292176dd453ca9db4d588894348a48e4db32b51468ddeb3c50846345") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd18d68fbb0ee97afb0600778600cedcfc08e6320f9ec1bb4f548de865825ffcb") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd96a3186f09ecadb428ffcc8360e8cd02a456fbfa551605bcf68ad88b3849287") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd2c45f1a7965a7434c21c28e5cae0cb4d1cf0cc53d2b41f4c5a560937b80ed24") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x0e25374569e8d5a325f9fda6c23b66d1af45034aa9795708029c2ceda5cc8744") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xb6c76b905c420ea532fd02589d660bbbce7ac4fab0985cbe7c3c3f16ece540bc") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xd474dd7ccbc3e6e46e5221e5adf22d0a20218237917f13faf1d965416a667152") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xb6554bdd290c2eaf8827c83056488c53b105f6c15d25862ba49bfe8e0d227024") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x893099a53c514e01ac3abd3e0ad1646e3be16f9a090056ff72e5d5600e59ef70") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xca2ac27b911ca7c3dffbb464dc7641628d385eefdee3fdef73513349d152efcd") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x8a94da69a36d81b5cea92fe37edc5072f970c4c5f5f9cddf2fd9b9d17bcfd2b7") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x0cd42c3985b27acafef0a0a46ad21522db75e5ede648ebfa9b7c0a370d30f2fa") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xf2e42660aa61b4c64cf938223bbc654a70f03576c8daf3b2fb185eebd36b6fe0") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x2e129ef9a33bd8fe4d39da129889f0f29a743221731fc42449e66de2661b0170") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xf9cfdee6b67a92676b7ab900f50db323b2cdfe6ec89b8acb2361e2655c5bd9b0") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x8dfc8b782aa86e4a649b329d11985bb0dc4f97f8207d7ccf8851fd4fd11ffa4e") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe742cd71af5e6c6ec3adca9b6b7896ccb55ffb09a53ab7f0572913568d58781f") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xfe0cf4911a1dffbca0b541724be1dc584cd02bb43e3cbab216cce7f2ee7ed4ba") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x88b2299b6f7a0df2403a91147572197a2f759e440dbbffdee56380ad43cf3e5d") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x6db1e97c1ae560359b9a6906677ac030024cc9c0df2bbb32e8386731a7e6bf07") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x474675bfc736c2fdba37d230d38dccc8fcb2422417dfaeccaaa8ac9f7ddaba0b") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x732ee69027fc0c19ea1fa0f8aad451c2fdb141e7d9cb6236c284c6479af54d7c") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xc61c0f0d94cee493173e85ab6c447c2a540bfbd2185c3c101584edea7e03a6c8") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x4448f17b223a305a5ad0e63eae14685d1748f14f39898a996cbc9f250a910d12") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x1b723bf04e3620bfeb0c531cc19cb9959f7f24c91e8c4140c450ca82b049ac59") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
-				(txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
-
+			(txin.prevout.hash == uint256("0x831454f1889f9801cbd7e27b250fe3036da023a6d430aff714310c281c0fba26") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x894c43a368f5757305c24dcafadd7dc4338e05d5567d7941be117874dc8f6376") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe722c088e06fd639b93cbbce0cddee32ff13d8fbe88625e1662591c0001b0247") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x06b6dd4529ca2e06cddfced23f03ca77d79037d461eca6597e678b1d7d14ee60") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xf7af194ab19847c060a704a11f82e330fd5d74b4e81693e3f9741aadfc5242bf") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x9841fd3d883959f21cb824150587d42e0e120b43fa04ae2fa9bc3c7b7c477595") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xdd2ba804faddd2c89bd64db7f30f911102e26ddb9dbecf28bc166bf58e78a480") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x9978fad83310efc3a867897a5054f04256f7b6c5ae2e4ea6e8d4beb3be3e540e") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xca867fa4229dc3fb7bfce73b53fb0852e37349b2419de93f462b36d4b4d68eb0") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xbf01c81c239da73f0092c9d3da2fb0c7deb7239762114730540d19411f286bf6") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x420b64da0d89f1c89a515cab9fd8512673fc79e95963a8c1aca24bc01564f551") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x2ba47903ef0ea2ff407d51e6761739a47396641684bb0ca9b51fe1535062e4ce") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x56d1c477492ad55b7b812872a201efbe0045b43aa912a41b4e2b2492f909929a") && txin.prevout.n == 0) ||
+		    (txin.prevout.hash == uint256("0x46dff6a046aaa6cdfc5bd1262847b69e51ce6be4f7112713b16c8b3109a6baac") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe7bfb5c949f89ecc1db2f81c51fae61c8fcbf1e78bca462802b486d492af24e5") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x32f8d08fc3494b3e334371e9d9af0d58e2db4abedb91d7102d0da08efa1aa4c7") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x8244e8f1073cfe930dc3082a3615e6165c80bba367be13fa5c8b4aa0988d74c5") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xa1a9caf266291e95b0d738aa1a06654e268fd1c67c61af01e1db3e0072785a1c") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xdf8b0638379a356f9222af450532cb63d13ce69375ded0f5f61a62f33e9f2308") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe897e2623173f361575b7aeb06624c4cb72bf8cd90092ad76a6ece47a89f5f4a") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x5265429abd872da02582cff24b40c31bf1d40fd98d2703bf20714e7b5819d423") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd49e8c5645b77719c63f135991a12ad2a7cdf64851262629cada6841df4f8cc0") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xf5e49a66ccdbe88abab04bbfda36472fe4ed27ceeabeb1bd9d999b46e367ae13") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xfe50b91e5fc8495e13c2c854a812edb5048e0b9ed58eba1ec961f08d687c7d0c") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x7d56bb53059b04e1290dac0dba64af8d73d2dc01ba42022a651957063265ec5c") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x25a2e0c9d6db44df2bec3d1088dd4762e1b48dce3e94d9982cb081446bc858fb") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x51be2b9ec72fd7abc49625b731e156276caf9617b8b2876ea2903b380e2dfbed") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xdd46cb503673ac14d8267a62e0e6a90e8b94d16a03a2afde12f565e75c84e20a") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd3417efd188ff8e6401286888f76818bf7331f5ad36ad8aa9821d0115c949bf4") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x9d50cfd3b440acff022f0d145fb1b39f6e7048766253acad83c6a678ac9c87ed") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe0cbafcf75e1e824e9bbcc45e333db035cbe11ff173c8060acb3f122405e9168") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xfcb4b7ed10ea64eb0acb881021f7bada3d7f40882259a7bd377feb3f099d0d74") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xc1b7e775292176dd453ca9db4d588894348a48e4db32b51468ddeb3c50846345") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd18d68fbb0ee97afb0600778600cedcfc08e6320f9ec1bb4f548de865825ffcb") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd96a3186f09ecadb428ffcc8360e8cd02a456fbfa551605bcf68ad88b3849287") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd2c45f1a7965a7434c21c28e5cae0cb4d1cf0cc53d2b41f4c5a560937b80ed24") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x0e25374569e8d5a325f9fda6c23b66d1af45034aa9795708029c2ceda5cc8744") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xb6c76b905c420ea532fd02589d660bbbce7ac4fab0985cbe7c3c3f16ece540bc") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xd474dd7ccbc3e6e46e5221e5adf22d0a20218237917f13faf1d965416a667152") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xb6554bdd290c2eaf8827c83056488c53b105f6c15d25862ba49bfe8e0d227024") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x893099a53c514e01ac3abd3e0ad1646e3be16f9a090056ff72e5d5600e59ef70") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xca2ac27b911ca7c3dffbb464dc7641628d385eefdee3fdef73513349d152efcd") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x8a94da69a36d81b5cea92fe37edc5072f970c4c5f5f9cddf2fd9b9d17bcfd2b7") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x0cd42c3985b27acafef0a0a46ad21522db75e5ede648ebfa9b7c0a370d30f2fa") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xf2e42660aa61b4c64cf938223bbc654a70f03576c8daf3b2fb185eebd36b6fe0") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x2e129ef9a33bd8fe4d39da129889f0f29a743221731fc42449e66de2661b0170") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xf9cfdee6b67a92676b7ab900f50db323b2cdfe6ec89b8acb2361e2655c5bd9b0") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x8dfc8b782aa86e4a649b329d11985bb0dc4f97f8207d7ccf8851fd4fd11ffa4e") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe742cd71af5e6c6ec3adca9b6b7896ccb55ffb09a53ab7f0572913568d58781f") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xfe0cf4911a1dffbca0b541724be1dc584cd02bb43e3cbab216cce7f2ee7ed4ba") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x88b2299b6f7a0df2403a91147572197a2f759e440dbbffdee56380ad43cf3e5d") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x6db1e97c1ae560359b9a6906677ac030024cc9c0df2bbb32e8386731a7e6bf07") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x474675bfc736c2fdba37d230d38dccc8fcb2422417dfaeccaaa8ac9f7ddaba0b") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x732ee69027fc0c19ea1fa0f8aad451c2fdb141e7d9cb6236c284c6479af54d7c") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xc61c0f0d94cee493173e85ab6c447c2a540bfbd2185c3c101584edea7e03a6c8") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x4448f17b223a305a5ad0e63eae14685d1748f14f39898a996cbc9f250a910d12") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x1b723bf04e3620bfeb0c531cc19cb9959f7f24c91e8c4140c450ca82b049ac59") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
+			(txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0)) 
 		{
             //printf("BAD SPEND @ height %d (txin.prevout.hash %s txin.prevout.n %d)\n", pindexBest->nHeight, txin.prevout.hash.ToString().c_str(), txin.prevout.n);
@@ -1818,11 +1817,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             if (chainActive.Height() >= 156000 || (IsSporkActive(SPORK_19_BAD_ACTOR_ENFORCEMENT))) {
                 // extract the destination of the previous transactions vout[n]
                 ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
-                // convert to an address
-                //CBitcoinAddress addressSource(source);
-                //CTxDestination addressSource(source);
 
-                //std::string badStakers = addressSource.ToString();
                 std::string badStakers = EncodeDestination(source);
                 const char badAddr[305][35] = {"  ", "AeS8deM1XWh2embVkkTEJSABhT9sgEjDY7", "AaBezQNQVt2jLmji8Nu3RMz5NFu2XxCbnv",
                     "AaBXoKEHhjxEXGkE2NUymYg1SxZm1k1mfw", "Aae7h7dPHypikAQHC5mC5uFCxhmE6FQrUb", "AajgZNr39CLHG4hHtaB2kYp2qmssfnsdyJ",
@@ -7462,7 +7457,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 		// This update was done with a baby in one hand btw :) Welcome baby Holly 4-9-19
         int ActiveProtocol()
         {
-            if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
+            if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
                 return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
             return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
         }
