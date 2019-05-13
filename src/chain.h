@@ -524,6 +524,13 @@ public:
         return vChain.size() > 0 ? vChain[0] : NULL;
     }
 
+	/**
+	* Return average network hashes per second based on the last 'lookup' blocks,
+	* or from the last difficulty change if 'lookup' is nonpositive.
+	* If 'height' is nonnegative, compute the estimate at the time when a given block was found.
+	*/
+	int64_t GetNetworkHashPS(int lookup, int height);
+
     /** Returns the index entry for the tip of this chain, or NULL if none. */
     CBlockIndex* Tip(bool fProofOfStake = false) const
     {

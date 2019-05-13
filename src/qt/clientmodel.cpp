@@ -20,14 +20,32 @@
 #include "net.h"
 #include "ui_interface.h"
 #include "util.h"
+#include "base58.h"
 
 #include <stdint.h>
+#include <map>
 
 #include <QDateTime>
 #include <QDebug>
 #include <QTimer>
 
 static const int64_t nClientStartupTime = GetTime();
+
+// ESB Did this first
+struct statElement 
+{
+	uint32_t blockTime; // block time
+	CAmount txInValue; // pos input value
+	std::vector<std::pair<std::string, CAmount>> mnPayee; // masternode payees
+};
+static int blockOldest = 0;
+static int blockLast = 0;
+static std::vector<std::pair<int, statElement>> statSourceData;
+
+map<std::string, CAmount> masternodeRewards;
+CAmount posMin, posMax, posMedian;
+int block24hCount;
+CAmount lockedCoin;
 
 ClientModel::ClientModel(OptionsModel* optionsModel, QObject* parent) : QObject(parent),
                                                                         optionsModel(optionsModel),
@@ -49,6 +67,11 @@ ClientModel::ClientModel(OptionsModel* optionsModel, QObject* parent) : QObject(
     // no need to update as frequent as data for balances/txes/blocks
     pollMnTimer->start(MODEL_UPDATE_DELAY * 4);
 
+	/*
+	poll24hStatsTimer = new QTimer(this);
+	connect(poll24hStatsTimer, SIGNAL(timeout()), this, SLOT(update24hStatsTimer()));
+	poll24hStatsTimer->start(MODEL_UPDATE_DELAY * 4);
+	*/
     subscribeToCoreSignals();
 }
 
@@ -56,6 +79,135 @@ ClientModel::~ClientModel()
 {
     unsubscribeFromCoreSignals();
 }
+
+/*
+bool sortStat(const pair<int, statElement> &a, const pair<int, statElement> &b)
+{
+	return (a.second.txInValue < b.second.txInValue);
+}
+
+void ClientModel::update24hStatsTimer()
+{
+	// Get required lock upfront. This avoids the GUI from getting stuck on
+	// periodical polls if the core is holding the locks for a longer time -
+	// for example, during a wallet rescan.
+    TRY_LOCK(cs_main, lockMain);
+	if (!lockMain) return;
+
+	TRY_LOCK(cs_main, lockStat);
+	if (!lockStat) return;
+
+if (masternodeSync.IsBlockchainSynced()) {
+            const int64_t syncStartTime = GetTime();
+
+            CBlock block;
+            CBlockIndex* pblockindex = mapBlockIndex[chainActive.Tip()->GetBlockHash()];
+
+            CTxDestination Address;
+            EncodeDestination Address;
+
+            int currentBlock = pblockindex->nHeight;
+            // read block from last to last scaned
+            while (pblockindex->nHeight > blockLast) {
+                if (!ReadBlockFromDisk(block, pblockindex))
+                    return;
+
+                if (!block.IsProofOfStake())
+                    continue; // skip not PoS block
+
+                // decode transactions
+                const CTransaction& tx = block.vtx[1];
+                if (!tx.IsCoinStake())
+                    continue; // skip if tx is not coin stake
+
+                // decode txIn
+                CTransaction txIn;
+                uint256 hashBlock;
+                if (!GetTransaction(tx.vin[0].prevout.hash, txIn, hashBlock, true))
+                    continue; // skip if not found txin
+
+                CAmount valuePoS = txIn.vout[tx.vin[0].prevout.n].nValue; // vin Value
+                ExtractDestination(txIn.vout[tx.vin[0].prevout.n].scriptPubKey, Address);
+                Address.Set(Dest);
+                std::string addressPoS = Address.ToString(); // vin Address
+
+                statElement blockStat;
+                blockStat.blockTime = block.nTime;
+                blockStat.txInValue = valuePoS;
+                blockStat.mnPayee.clear();
+
+                // decode txOut
+                CAmount sumPoS = 0;
+                for (unsigned int i = 0; i < tx.vout.size(); i++) {
+                    CTxOut txOut = tx.vout[i];
+                    ExtractDestination(txOut.scriptPubKey, Dest);
+                    Address.Set(Dest);
+                    std::string addressOut = Address.ToString(); // vout Address
+                    if (addressPoS == addressOut && valuePoS > sumPoS) {
+                        // skip pos output
+                        sumPoS += txOut.nValue;
+                    } else {
+                        // store vout payee and value
+                        blockStat.mnPayee.push_back(make_pair(addressOut, txOut.nValue));
+                        // and update node rewards
+                        masternodeRewards[addressOut] += txOut.nValue;
+                    }
+                }
+
+                // store block stat
+                statSourceData.push_back(make_pair(pblockindex->nHeight, blockStat));
+
+                // stop if blocktime over 24h past
+                if ((block.nTime + 24 * 60 * 60) < syncStartTime) {
+                    blockOldest = pblockindex->nHeight;
+                    break;
+                }
+                // select next (previous) block
+                pblockindex = pblockindex->pprev;
+            }
+
+            // clear over 24h block data
+            std::vector<pair<std::string, CAmount> > tMN;
+            std::string tAddress;
+            CAmount tValue;
+            for (auto it = statSourceData.rbegin(); it != statSourceData.rend(); ++it) {
+                if ((it->second.blockTime + 24 * 60 * 60) < syncStartTime) {
+                    tMN = it->second.mnPayee;
+                    for (auto im = tMN.begin(); im != tMN.end(); ++im) {
+                        tAddress = im->first;
+                        tValue = im->second;
+                        masternodeRewards[tAddress] -= tValue;
+                    }
+                    // remove element
+                    *it = statSourceData.back();
+                    statSourceData.pop_back();
+                }
+            }
+
+            // recalc stats data if new block found
+            if (currentBlock > blockLast) {
+                // sorting vector and get stats values
+                sort(statSourceData.begin(), statSourceData.end(), sortStat);
+                posMin = statSourceData.front().second.txInValue;
+                posMax = statSourceData.back().second.txInValue;
+                if (statSourceData.size() % 2) {
+                    posMedian = (statSourceData[int(statSourceData.size() / 2)].second.txInValue + statSourceData[int(statSourceData.size() / 2) - 1].second.txInValue) / 2;
+                } else {
+                    posMedian = statSourceData[int(statSourceData.size() / 2) - 1].second.txInValue;
+                }
+                block24hCount = statSourceData.size();
+            }
+
+            blockLast = currentBlock;
+        }
+
+        if (poll24hStatsTimer->interval() == 1000)
+            poll24hStatsTimer->setInterval(30000);
+
+        // sending signal
+        //emit stats24hUpdated();
+}*/
+
 
 int ClientModel::getNumConnections(unsigned int flags) const
 {

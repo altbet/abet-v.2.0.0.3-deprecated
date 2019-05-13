@@ -356,7 +356,7 @@ int CSporkManager::GetSporkIDByName(std::string strName)
     if (strName == "SPORK_23_ZEROCOIN_MAINTENANCE_MODE") return SPORK_23_ZEROCOIN_MAINTENANCE_MODE;
     if (strName == "SPORK_24_LOCK_INVALID_UTXO") return SPORK_24_LOCK_INVALID_UTXO;
     if (strName == "SPORK_25_SEGWIT_ON_COINBASE") return SPORK_25_SEGWIT_ON_COINBASE;
-    if (strName == "SPORK_26_NEW_COLLATERAL") return SPORK_26_NEW_COLLATERAL_DEFAULT;
+    if (strName == "SPORK_26_NEW_COLLATERAL") return SPORK_26_NEW_COLLATERAL;
 
     return -1;
 }
@@ -385,7 +385,7 @@ std::string CSporkManager::GetSporkNameByID(int id)
     if (id == SPORK_23_ZEROCOIN_MAINTENANCE_MODE) return "SPORK_23_ZEROCOIN_MAINTENANCE_MODE";
     if (id == SPORK_24_LOCK_INVALID_UTXO) return "SPORK_24_LOCK_INVALID_UTXO";
     if (id == SPORK_25_SEGWIT_ON_COINBASE) return "SPORK_25_SEGWIT_ON_COINBASE";
-    if (id == SPORK_26_NEW_COLLATERAL) return "SPORK_26_NEW_COLLATERAL_DEFAULT";
+    if (id == SPORK_26_NEW_COLLATERAL) return "SPORK_26_NEW_COLLATERAL";
 
     return "Unknown";
 }
