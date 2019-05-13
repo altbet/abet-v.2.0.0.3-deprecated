@@ -189,9 +189,11 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
             nHeight = (*mi).second->nHeight + 1;
     }
 
-	if (IsTreasuryBlock(nHeight) || IsSporkActive(SPORK_21_TREASURY_PAYMENT_DEFAULT)) {
-        return true;
-    }
+	
+	if (IsTreasuryBlock(nHeight) <= Params().MasternodeCollateralGracePeriod() && IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT))
+    {
+		return true;
+	}
 
     if (nHeight == 0) {
         LogPrint("masternode","IsBlockValueValid() : WARNING: Couldn't find previous block\n");
@@ -273,8 +275,6 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 		BOOST_FOREACH(CTxOut out, txNew.vout) {
 			CTxDestination address1;
 			ExtractDestination(out.scriptPubKey, address1);
-			//EncodeDestination(address1)
-			//CBitcoinAddress address2(address1);
 
 			LogPrint("masternode", "IsBlockPayeeValid, txOut: address %s, value is %lld\n", EncodeDestination(address1), out.nValue);
 			if (out.nValue == treasuryAmount)
@@ -284,15 +284,12 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 		}
 
 		if (!bFound) {
-			//LogPrint("masternode","Invalid treasury payment detected %s\n", txNew.ToString().c_str());
 			LogPrint("masternode", "Invalid treasury payment detected %s\n", txNew.ToString().c_str());
 
 			LogPrint("masternode", "Check transaction, expected treasury reward is %0.2f\n", treasuryAmount / COIN);
 			BOOST_FOREACH(CTxOut out, txNew.vout) {
 				CTxDestination address1;
 				ExtractDestination(out.scriptPubKey, address1);
-				//EncodeDestination(address1)
-				//CBitcoinAddress address2(address1);
 
 				LogPrint("masternode", "Out: address %s, value is %f\n", EncodeDestination(address1), out.nValue);
 				if (out.nValue == treasuryAmount) {

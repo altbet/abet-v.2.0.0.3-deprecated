@@ -2817,13 +2817,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool IsTreasuryBlock(int nHeight)
         {
-            // Spork to allow dev fee to be turned on and off
-            // If spork is on dev fee is turned off
-            if (nHeight < nStartTreasuryBlock)
-                return false;
-            else if (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT))
-                return true;
-            else if ((nHeight - nStartTreasuryBlock) % nTreasuryBlockStep == 0)
+            if ((nHeight - nStartTreasuryBlock) % nTreasuryBlockStep == 0 && IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT))
                 return true;
             else
                 return false;
@@ -7468,7 +7462,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 		// This update was done with a baby in one hand btw :) Welcome baby Holly 4-9-19
         int ActiveProtocol()
         {
-            if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
+            if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
                 return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
             return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
         }
