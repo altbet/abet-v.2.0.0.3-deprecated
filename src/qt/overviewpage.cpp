@@ -439,14 +439,14 @@ void OverviewPage::updateMasternodeInfo()
 
 
         if (IsSporkActive(SPORK_26_NEW_COLLATERAL)) {
-            CAmount tNodesSumm = mn1 * 5000;
+            CAmount tNodesSumm = mn1 * Params().MasternodeCollateralAmtNew();
             CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
             double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
             ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
             ui->roi_1->setText(mn1 == 0 ? "-" : QString::number(roi1, 'f', 0).append("  "));
             ui->roi_2->setText(mn1 == 0 ? " " : QString::number(5000 / roi1, 'f', 1).append(" days"));
 		}else{
-            CAmount tNodesSumm = mn1 * 1000;
+            CAmount tNodesSumm = mn1 * Params().MasternodeCollateralAmt();
             CAmount tMoneySupply = chainActive.Tip()->nMoneySupply;
             double tLocked = tMoneySupply > 0 ? 100 * static_cast<double>(tNodesSumm) / static_cast<double>(tMoneySupply / COIN) : 0;
             ui->label_LockedCoin_value->setText(QString::number(tNodesSumm).append(" (" + QString::number(tLocked, 'f', 1) + "%)"));
@@ -461,9 +461,9 @@ void OverviewPage::updateMasternodeInfo()
 
     // Update Collateral Info
     if (IsSporkActive(SPORK_26_NEW_COLLATERAL)) {
-        ui->label_lcolat->setText("5000 ABET"); 
+        ui->label_lcolat->setText("10000"); 
 	}else{ 
-		ui->label_lcolat->setText("1000 ABET");
+		ui->label_lcolat->setText("1000");
 
     }
 }

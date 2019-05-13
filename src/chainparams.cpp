@@ -61,11 +61,16 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
 	(140000, uint256("0x7050c6e86b24699c8bc487796d1a69f8525bbed35b900feb562766746f2fb47a"))
 	(153196, uint256("0x2ee0bf66c24c0630959bc5c7080cd013b4bf226cc1f5e49367cd1e0879c4ec0e"))
 	(155690, uint256("0x2ba0fd564d92908772fc1d879aa50257b3457e1243162d5d88b33def12254f63"))
-	(178464, uint256("0x713883ba7c673271850cd75ce18931d7981df9cb77635c3e2f1506e8f62d6ec7"));
+	(178464, uint256("0x713883ba7c673271850cd75ce18931d7981df9cb77635c3e2f1506e8f62d6ec7"))
+	(200000, uint256("0x3cba337747995679ee52cdd9a4d1ff24e4f62910621c430879a3422e3175755f"))
+	(230000, uint256("0xc0e30900932b718658b785235430e7ef9d41be2086a972237b877f1e175b67cd"))
+	(260000, uint256("0x843e3ce69673825f42cc2fb7031a5ffb2b74b77470193e754ab5411a3c59bd22"))
+	(279862, uint256("0x252aef64859c08acdfdbf130b9a3f13292753b5dfce21c9ddd0e04b562867895"))
+	(297703, uint256("0xd36fcab50f5227f3b295a6302a5c9b68d5f586adfe77e6a4b05d0660a3e8b10f"));
 static const Checkpoints::CCheckpointData data = {
     &mapCheckpoints,
-    1550509120, // * UNIX timestamp of last checkpoint block
-    443823,     // * total number of transactions between genesis and last checkpoint
+    1557759618, // * UNIX timestamp of last checkpoint block
+    823223,     // * total number of transactions between genesis and last checkpoint
                 //   (the tx=... number in the SetBestChain debug.log lines)
     200         // * estimated number of transactions per day after checkpoint
 };
@@ -140,7 +145,7 @@ public:
         nMaturity = 15;
         nMasternodeCountDrift = 20;
         nMasternodeCollateralAmt = 1000;
-        nMasternodeCollateralAmtNew = 5000;
+        nMasternodeCollateralAmtNew = 10000;
         nMasternodeCollateralGracePeriod = 305000; //Block Height
         nMinStakeInput = 15 * COIN;
         nModifierUpdateBlock = 615800;
