@@ -3022,6 +3022,24 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             }
         }
 
+		void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
+        {
+            // mark inputs spent
+            if (!tx.IsCoinBase()) {
+                txundo.vprevout.reserve(tx.vin.size());
+                BOOST_FOREACH (const CTxIn& txin, tx.vin) {
+                    txundo.vprevout.push_back(CTxInUndo());
+                    bool ret = inputs.ModifyCoins(txin.prevout.hash)->Spend(txin.prevout, txundo.vprevout.back());
+                    assert(ret);
+                }
+            }
+
+            // add outputs
+            inputs.ModifyCoins(tx.GetHash())->FromTx(tx, nHeight);
+        }
+
+
+		/*
         void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
         {
             // mark inputs spent
@@ -3037,6 +3055,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // add outputs
             inputs.ModifyCoins(tx.GetHash())->FromTx(tx, nHeight);
         }
+		*/
 
         bool CScriptCheck::operator()()
         {
@@ -3050,8 +3069,9 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, bool fScriptChecks, unsigned int flags, bool cacheStore, std::vector<CScriptCheck>* pvChecks)
         {
-            if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) {
-                if (pvChecks)
+            //if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) {
+            if (!tx.IsCoinBase()) {  
+				if (pvChecks)
                     pvChecks->reserve(tx.vin.size());
 
                 // This doesn't trigger the DoS code on purpose; if it did, it would make it easier

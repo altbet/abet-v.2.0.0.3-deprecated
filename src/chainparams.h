@@ -106,7 +106,7 @@ public:
 	//Collat Related Stuff
     int MasternodeCollateralAmt() const { return nMasternodeCollateralAmt; }
     int MasternodeCollateralAmtNew() const { return nMasternodeCollateralAmtNew; }
-    int MasternodeCollateralGracePeriod() const { return nMasternodeCollateralGracePeriod; }
+    int MasternodeCollateralAmtNewEnd() const { return nMasternodeCollateralAmtNewEnd; }
 
      //Treasury Related
          std::string vTreasuryRewardAddress;
@@ -155,7 +155,7 @@ protected:
     int nMasternodeCountDrift;
     int nMasternodeCollateralAmt;
     int nMasternodeCollateralAmtNew;
-    int nMasternodeCollateralGracePeriod;
+    int nMasternodeCollateralAmtNewEnd;
     int nMaturity;
     unsigned int nStakeMaturity;
     int nModifierUpdateBlock;
