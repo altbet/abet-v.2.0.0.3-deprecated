@@ -38,8 +38,7 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 public slots:
-    void setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance, 
-                    const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
+    void setBalance(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
                     const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance);
     void timerTickSlot();
 
@@ -48,20 +47,18 @@ signals:
 
 private:
     QTimer* timer;
+    QTimer* timerinfo_mn;
+    QTimer* timerinfo_blockchain;
     Ui::OverviewPage* ui;
     ClientModel* clientModel;
     WalletModel* walletModel;
     CAmount currentBalance;
     CAmount currentUnconfirmedBalance;
     CAmount currentImmatureBalance;
-    CAmount currentZerocoinBalance;
-    CAmount currentUnconfirmedZerocoinBalance;
-    CAmount currentimmatureZerocoinBalance;
     CAmount currentWatchOnlyBalance;
     CAmount currentWatchUnconfBalance;
     CAmount currentWatchImmatureBalance;
     int nDisplayUnit;
-    void getPercentage(CAmount nTotalBalance, CAmount nZerocoinBalance, QString& sABETPercentage, QString& szABETPercentage);
 
     TxViewDelegate* txdelegate;
     TransactionFilterProxy* filter;
@@ -71,6 +68,8 @@ private slots:
     void handleTransactionClicked(const QModelIndex& index);
     void updateAlerts(const QString& warnings);
     void updateWatchOnlyLabels(bool showWatchOnly);
+    void updateMasternodeInfo();
+    void updatBlockChainInfo();
 };
 
 #endif // BITCOIN_QT_OVERVIEWPAGE_H

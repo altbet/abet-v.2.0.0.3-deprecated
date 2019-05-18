@@ -70,13 +70,13 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     ui->bitcoinAtStartup->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->databaseCache->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->threadsScriptVerif->setAttribute(Qt::WA_MacShowFocusRect, 0);
-    ui->zeromintPercentage->setAttribute(Qt::WA_MacShowFocusRect, 0);
-    ui->preferredDenom->setAttribute(Qt::WA_MacShowFocusRect, 0);
+    //ui->zeromintPercentage->setAttribute(Qt::WA_MacShowFocusRect, 0);
+    //ui->preferredDenom->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
     ui->spinBoxStakeSplitThreshold->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->coinControlFeatures->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->showMasternodesTab->setAttribute(Qt::WA_MacShowFocusRect, 0);
-    ui->spendZeroConfChange->setAttribute(Qt::WA_MacShowFocusRect, 0);
+    //ui->spendZeroConfChange->setAttribute(Qt::WA_MacShowFocusRect, 0);
 
     ui->mapPortUpnp->setAttribute(Qt::WA_MacShowFocusRect, 0);
     ui->allowIncoming->setAttribute(Qt::WA_MacShowFocusRect, 0);
@@ -107,6 +107,7 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     ui->theme->addItem(QString("Default"), QVariant("default"));
 
     /* Preferred Zerocoin Denominations */
+	/*
     ui->preferredDenom->addItem(QString(tr("Any")), QVariant("0"));
     ui->preferredDenom->addItem(QString("1"), QVariant("1"));
     ui->preferredDenom->addItem(QString("5"), QVariant("5"));
@@ -116,6 +117,7 @@ OptionsDialog::OptionsDialog(QWidget* parent, bool enableWallet) : QDialog(paren
     ui->preferredDenom->addItem(QString("500"), QVariant("500"));
     ui->preferredDenom->addItem(QString("1000"), QVariant("1000"));
     ui->preferredDenom->addItem(QString("5000"), QVariant("5000"));
+	*/
 
     /* Theme selector external themes */
     boost::filesystem::path pathAddr = GetDataDir() / "themes";
@@ -199,7 +201,7 @@ void OptionsDialog::setModel(OptionsModel* model)
     connect(ui->databaseCache, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
     connect(ui->threadsScriptVerif, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
     /* Wallet */
-    connect(ui->spendZeroConfChange, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
+    //connect(ui->spendZeroConfChange, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
     /* Network */
     connect(ui->allowIncoming, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
     connect(ui->connectSocks, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
@@ -218,14 +220,14 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->threadsScriptVerif, OptionsModel::ThreadsScriptVerif);
     mapper->addMapping(ui->databaseCache, OptionsModel::DatabaseCache);
     // Zeromint Enabled
-    mapper->addMapping(ui->checkBoxZeromintEnable, OptionsModel::ZeromintEnable);
+    //mapper->addMapping(ui->checkBoxZeromintEnable, OptionsModel::ZeromintEnable);
     // Zerocoin mint percentage
-    mapper->addMapping(ui->zeromintPercentage, OptionsModel::ZeromintPercentage);
+    //mapper->addMapping(ui->zeromintPercentage, OptionsModel::ZeromintPercentage);
     // Zerocoin preferred denomination
-    mapper->addMapping(ui->preferredDenom, OptionsModel::ZeromintPrefDenom);
+    //mapper->addMapping(ui->preferredDenom, OptionsModel::ZeromintPrefDenom);
 
     /* Wallet */
-    mapper->addMapping(ui->spendZeroConfChange, OptionsModel::SpendZeroConfChange);
+   //mapper->addMapping(ui->spendZeroConfChange, OptionsModel::SpendZeroConfChange);
     mapper->addMapping(ui->coinControlFeatures, OptionsModel::CoinControlFeatures);
     mapper->addMapping(ui->spinBoxStakeSplitThreshold, OptionsModel::StakeSplitThreshold);
 
@@ -250,7 +252,7 @@ void OptionsDialog::setMapper()
     mapper->addMapping(ui->lang, OptionsModel::Language);
     mapper->addMapping(ui->unit, OptionsModel::DisplayUnit);
     mapper->addMapping(ui->thirdPartyTxUrls, OptionsModel::ThirdPartyTxUrls);
-    mapper->addMapping(ui->checkBoxHideZeroBalances, OptionsModel::HideZeroBalances);
+    //mapper->addMapping(ui->checkBoxHideZeroBalances, OptionsModel::HideZeroBalances);
 
     /* Masternode Tab */
     mapper->addMapping(ui->showMasternodesTab, OptionsModel::ShowMasternodesTab);

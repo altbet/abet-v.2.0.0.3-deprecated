@@ -151,6 +151,7 @@ int64_t GetSporkValue(int nSporkID)
         if (nSporkID == SPORK_24_LOCK_INVALID_UTXO) r = SPORK_24_LOCK_INVALID_UTXO_DEFAULT;
         if (nSporkID == SPORK_25_SEGWIT_ON_COINBASE) r = SPORK_25_SEGWIT_ON_COINBASE_DEFAULT;
         if (nSporkID == SPORK_26_NEW_COLLATERAL) r = SPORK_26_NEW_COLLATERAL_DEFAULT;
+		if (nSporkID == SPORK_27_NEW_COLLATERAL_2) r = SPORK_27_NEW_COLLATERAL_2_DEFAULT;
 
         if (r == -1) LogPrintf("GetSpork::Unknown Spork %d\n", nSporkID);
     }
@@ -189,6 +190,7 @@ bool IsSporkActive(int nSporkID)
         if (nSporkID == SPORK_24_LOCK_INVALID_UTXO) r = SPORK_24_LOCK_INVALID_UTXO_DEFAULT;
         if (nSporkID == SPORK_25_SEGWIT_ON_COINBASE) r = SPORK_25_SEGWIT_ON_COINBASE_DEFAULT;
         if (nSporkID == SPORK_26_NEW_COLLATERAL) r = SPORK_26_NEW_COLLATERAL_DEFAULT;
+		if (nSporkID == SPORK_27_NEW_COLLATERAL_2) r = SPORK_27_NEW_COLLATERAL_2_DEFAULT;
 
         if (r == -1) LogPrintf("GetSpork::Unknown Spork %d\n", nSporkID);
     }
@@ -356,7 +358,8 @@ int CSporkManager::GetSporkIDByName(std::string strName)
     if (strName == "SPORK_23_ZEROCOIN_MAINTENANCE_MODE") return SPORK_23_ZEROCOIN_MAINTENANCE_MODE;
     if (strName == "SPORK_24_LOCK_INVALID_UTXO") return SPORK_24_LOCK_INVALID_UTXO;
     if (strName == "SPORK_25_SEGWIT_ON_COINBASE") return SPORK_25_SEGWIT_ON_COINBASE;
-    if (strName == "SPORK_26_NEW_COLLATERAL") return SPORK_26_NEW_COLLATERAL_DEFAULT;
+    if (strName == "SPORK_26_NEW_COLLATERAL") return SPORK_26_NEW_COLLATERAL;
+	if (strName == "SPORK_27_NEW_COLLATERAL_2") return SPORK_27_NEW_COLLATERAL_2;
 
     return -1;
 }
@@ -385,7 +388,8 @@ std::string CSporkManager::GetSporkNameByID(int id)
     if (id == SPORK_23_ZEROCOIN_MAINTENANCE_MODE) return "SPORK_23_ZEROCOIN_MAINTENANCE_MODE";
     if (id == SPORK_24_LOCK_INVALID_UTXO) return "SPORK_24_LOCK_INVALID_UTXO";
     if (id == SPORK_25_SEGWIT_ON_COINBASE) return "SPORK_25_SEGWIT_ON_COINBASE";
-    if (id == SPORK_26_NEW_COLLATERAL) return "SPORK_26_NEW_COLLATERAL_DEFAULT";
+    if (id == SPORK_26_NEW_COLLATERAL) return "SPORK_26_NEW_COLLATERAL";
+	if (id == SPORK_27_NEW_COLLATERAL_2) return "SPORK_27_NEW_COLLATERAL_2";
 
     return "Unknown";
 }
