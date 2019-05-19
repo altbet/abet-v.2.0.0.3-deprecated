@@ -190,8 +190,8 @@ bool IsBlockValueValid(const CBlock& block, CAmount nExpectedValue, CAmount nMin
     }
 
 	
-	if (IsTreasuryBlock(nHeight) <= 308000)
-    {
+	if (IsTreasuryBlock(nHeight) && nHeight <= 308000)
+        {
 		return true;
 	}
 
