@@ -136,6 +136,9 @@ public:
     int Zerocoin_StartHeight() const { return nZerocoinStartHeight; }
     int Zerocoin_LastOldParams() const { return nZerocoinLastOldParams; }
 
+    /** Dev payment related things **/
+    int StartTreasuryBlock() const { return nStartTreasuryBlock; }
+    int TreasuryBlockStep() const { return nTreasuryBlockStep; }
 protected:
     CChainParams() {}
 
@@ -199,6 +202,9 @@ protected:
     int nZerocoinStartHeight;
     int nZerocoinLastOldParams;
     
+    //Dev payment related
+    int nStartTreasuryBlock;
+    int nTreasuryBlockStep;
 };
 
 /**
