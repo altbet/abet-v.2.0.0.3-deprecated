@@ -2807,12 +2807,11 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         }
 
         //Treasury blocks start from 192021 and then each 1440 block
-        int nStartTreasuryBlock = 192021;
-        int nTreasuryBlockStep = 1440;
+        // moved to chainparams
 
         bool IsTreasuryBlock(int nHeight)
         {
-            if ((nHeight - nStartTreasuryBlock) % nTreasuryBlockStep == 0 && IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT))
+            if ((nHeight - Params().StartTreasuryBlock()) % Params().TreasuryBlockStep() == 0 && (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT) || !masternodeSync.IsSynced()))
                 return true;
             else
                 return false;
