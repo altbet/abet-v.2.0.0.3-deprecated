@@ -1,6 +1,6 @@
 ![altbet](https://github.com/altbet/brand/blob/master/abetlogofull-colorblack-transparent-600.png)
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?&color=success)](https://github.com/Test-Coin/TestCoin/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?&color=success)](https://github.com/altbet/abet/blob/master/LICENSE)
 [![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg?style=flat&logo=Github&color=informational)]()
 [![Latest releases](https://img.shields.io/badge/Download-latest%20wallet%20release-green.svg?style=flat&logo=Skyliner&color=important)](https://github.com/altbet/abet/releases)
 [![Discord Chat](https://img.shields.io/discord/473618220524240928.svg?style=flat&logo=Discord)](https://altbet.io/go/discord) 
