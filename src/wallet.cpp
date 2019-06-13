@@ -2089,12 +2089,25 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
             continue;
 
         //if zerocoinspend, then use the block time
-        int64_t nTxTime = out.tx->GetTxTime();
+        /*
         if (out.tx->IsZerocoinSpend()) {
             if (!out.tx->IsInMainChain())
                 continue;
             nTxTime = mapBlockIndex.at(out.tx->hashBlock)->GetBlockTime();
-        }
+        }*/
+		int64_t nTxTime = out.tx->GetTxTime();
+
+		//check for minimal stake input after fork
+		if (ActiveProtocol() >= STAKEV2_VERSION) {
+			if (out.tx->vout[out.i].nValue < Params().StakeInput())
+				continue;
+		}
+
+		//check for minimal stake input after fork
+		if (ActiveProtocol() >= STAKEV2_VERSION) {
+			if (out.tx->vout[out.i].nValue < Params().StakeInput())
+				continue;
+		}
 
         //check for min age
         if (GetAdjustedTime() - nTxTime < StakeMinAgev2())

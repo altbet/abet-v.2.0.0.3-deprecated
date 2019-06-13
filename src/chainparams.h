@@ -113,7 +113,7 @@ public:
      std::string GetTreasuryRewardAddressAtHeight(int height) const;
      CScript GetTreasuryRewardScriptAtHeight(int height) const;
      // Min amount in order to stake
-         CAmount StakeInput() const
+    CAmount StakeInput() const
     {
         return nMinStakeInput;
     }
