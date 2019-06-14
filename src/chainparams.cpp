@@ -151,9 +151,6 @@ public:
         nMinStakeInput = 15 * COIN;
         nModifierUpdateBlock = 615800;
         nMaxMoneyOut = 21000000 * COIN;
-        
-        nStartTreasuryBlock = 192021;
-        nTreasuryBlockStep = 1440;
 
         const char* pszTimestamp = "Winner, winner chicken dinner.";
 
