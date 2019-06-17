@@ -153,8 +153,6 @@ public:
         nMaxMoneyOut = 21000000 * COIN;
         nStartTreasuryBlock = 192021;
         nTreasuryBlockStep = 1440;
-
-
         const char* pszTimestamp = "Winner, winner chicken dinner.";
 
         CMutableTransaction txNew;
@@ -170,6 +168,8 @@ public:
         genesis.nTime = 1539605437;
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 2918613;
+        nStartTreasuryBlock = 192021;
+        nTreasuryBlockStep = 1440;
 
         hashGenesisBlock = genesis.GetHash();
         //printf("genesis.GetHash = %s\n", genesis.GetHash().ToString().c_str());

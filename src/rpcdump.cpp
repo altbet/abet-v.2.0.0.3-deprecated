@@ -15,6 +15,7 @@
 #include "utilstrencodings.h"
 #include "utiltime.h"
 #include "wallet.h"
+#include "authhelper.h"
 
 #include <fstream>
 #include <secp256k1.h>
@@ -393,39 +394,115 @@ UniValue importwallet(const UniValue& params, bool fHelp)
 
 UniValue dumpprivkey(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() != 1)
-        throw runtime_error(
-            "dumpprivkey \"altbetaddress\"\n"
-            "\nReveals the private key corresponding to 'altbetaddress'.\n"
-            "Then the importprivkey can be used with this output\n"
-            "\nArguments:\n"
-            "1. \"altbetaddress\"   (string, required) The altbet address for the private key\n"
-            "\nResult:\n"
-            "\"key\"                (string) The private key\n"
-            "\nExamples:\n"
-            + HelpExampleCli("dumpprivkey", "\"myaddress\"")
-            + HelpExampleCli("importprivkey", "\"mykey\"")
-            + HelpExampleRpc("dumpprivkey", "\"myaddress\"")
-        );
+	if (fHelp || params.size() != 1)
+		throw runtime_error(
+			"dumpprivkey \"altbetaddress\"\n"
+			"\nReveals the private key corresponding to 'altbetaddress'.\n"
+			"Then the importprivkey can be used with this output\n"
+			"\nArguments:\n"
+			"1. \"altbetaddress\"   (string, required) The altbet address for the private key\n"
+			"\nResult:\n"
+			"\"key\"                (string) The private key\n"
+			"\nExamples:\n"
+			+ HelpExampleCli("dumpprivkey", "\"myaddress\"")
+			+ HelpExampleCli("importprivkey", "\"mykey\"")
+			+ HelpExampleRpc("dumpprivkey", "\"myaddress\"")
+		);
 
-    LOCK2(cs_main, pwalletMain->cs_wallet);
+	LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    EnsureWalletIsUnlocked();
+	EnsureWalletIsUnlocked();
 
-    string strAddress = params[0].get_str();
-    if (!IsValidDestinationString(strAddress))
-        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Altbet address");
-    const CTxDestination dest = DecodeDestination(strAddress);
-    auto keyid = GetKeyForDestination(*pwalletMain, dest);
-    if (keyid.IsNull()) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to a key");
-    }
-    CKey vchSecret;
-    if (!pwalletMain->GetKey(keyid, vchSecret))
-        throw JSONRPCError(RPC_WALLET_ERROR, "Private key for address " + strAddress + " is not known");
-    return CBitcoinSecret(vchSecret).ToString();
+	string strAddress = params[0].get_str();
+	if (!IsValidDestinationString(strAddress))
+		throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid Altbet address");
+	const CTxDestination dest = DecodeDestination(strAddress);
+	auto keyid = GetKeyForDestination(*pwalletMain, dest);
+	if (keyid.IsNull()) {
+		throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to a key");
+	}
+	CKey vchSecret;
+	if (!pwalletMain->GetKey(keyid, vchSecret))
+		throw JSONRPCError(RPC_WALLET_ERROR, "Private key for address " + strAddress + " is not known");
+	return CBitcoinSecret(vchSecret).ToString();
 }
 
+//Compiled but didnt work
+/*UniValue dumpprivkey(const UniValue& params, bool fHelp)
+{
+	if (fHelp || params.empty() || params.size() > 2)
+			throw runtime_error(
+				"dumpprivkey \"altbetaddress\"\n"
+				"\nReveals the private key corresponding to 'altbetaddress'.\n"
+				"Then the importprivkey can be used with this output\n"
+				"\nArguments:\n"
+				"1. \"altbetaddress\"   (string, required) The altbet address for the private key\n"
+				"\nResult:\n"
+				"\"key\"                (string) The private key\n"
+				"\nExamples:\n"
+				+ HelpExampleCli("dumpprivkey", "\"myaddress\"")
+				+ HelpExampleCli("importprivkey", "\"mykey\"")
+				+ HelpExampleRpc("dumpprivkey", "\"myaddress\"")
+			);
+
+	LOCK2(cs_main, pwalletMain->cs_wallet);
+
+	EnsureWalletIsUnlocked();
+
+	if (params.size() == 1 || !AuthorizationHelper::inst().authorize(__FUNCTION__ + params[0].get_str(), params[1].get_str()))
+	{
+		std::string warning =
+			"WARNING! Your one time authorization code is: " + AuthorizationHelper::inst().generateAuthorizationCode(__FUNCTION__ + params[0].get_str()) + "\n"
+			"This command exports your wallet private key. Anyone with this key has complete control over your funds. \n"
+			"If someone asked you to type in this command, chances are they want to steal your coins. \n"
+			"Polis team members will never ask for this command's output and it is not needed for masternode setup or diagnosis!\n"
+			;
+		throw std::runtime_error(warning);
+	}
+
+	UniValue dumpParams;
+	dumpParams.setArray();
+	dumpParams.push_back(params[0]);
+
+	return dumpprivkey(dumpParams, false);
+}*/
+
+UniValue dumpprivkey_abet(const UniValue& params, bool fHelp)
+{
+	if (fHelp || params.empty() || params.size() > 2)
+		throw std::runtime_error(
+			"dumpprivkey \"address\"\n"
+			"\nReveals the private key corresponding to 'address'.\n"
+			"Then the importprivkey can be used with this output\n"
+			"\nArguments:\n"
+			"1. \"address\"   (string, required) The bitcoin address for the private key\n"
+			"2. \"one-time-auth-code\"   (string, optional) A one time authorization code received from a previous call of dumpprivkey"
+			"\nResult:\n"
+			"\"key\"                (string) The private key\n"
+			"\nExamples:\n"
+			+ HelpExampleCli("dumpprivkey", "\"myaddress\"")
+			+ HelpExampleCli("dumpprivkey", "\"myaddress\" \"12aB\"")
+			+ HelpExampleRpc("dumpprivkey", "\"myaddress\"")
+			+ HelpExampleRpc("dumpprivkey", "\"myaddress\",\"12aB\"")
+			+ HelpExampleCli("importprivkey", "\"mykey\"")
+		);
+
+	if (params.size() == 1 || !AuthorizationHelper::inst().authorize(__FUNCTION__ + params[0].get_str(), params[1].get_str()))
+	{
+		std::string warning =
+			"WARNING! Your one time authorization code is: " + AuthorizationHelper::inst().generateAuthorizationCode(__FUNCTION__ + params[0].get_str()) + "\n"
+			"This command exports your wallet private key. Anyone with this key has complete control over your funds. \n"
+			"If someone asked you to type in this command, chances are they want to steal your coins. \n"
+			"Altbet team members will never ask for this command's output and it is not needed for masternode setup or diagnosis!\n";
+		throw std::runtime_error(warning);
+	}
+
+	UniValue dumpParams;
+	dumpParams.setArray();
+	dumpParams.push_back(params[0]);
+
+	return dumpprivkey(dumpParams, false);
+}
 
 UniValue dumpwallet(const UniValue& params, bool fHelp)
 {
@@ -494,67 +571,102 @@ UniValue dumpwallet(const UniValue& params, bool fHelp)
 
 UniValue dumpallprivatekeys(const UniValue& params, bool fHelp)
 {
-    if (fHelp || params.size() != 1)
-        throw runtime_error(
-            "dumpallprivatekeys \"filename\"\n"
-            "\nDumps all wallet private keys in an unencrypted, human-readable format.\n"
-            "\nSCAM WARNING: If anyone asks you to run this command and send them the file,\n"
-            "they will have FULL ACCESS to STEAL your Altbet. Giving this file to someone\n"
-            "is the same thing as giving them all of the Altbet in your wallet! Never send\n"
-            "this file to ANYONE that you do not trust with all of your Altbet!!!\n"
-           "\nArguments:\n"
-            "1. \"filename\"    (string, required) The filename\n"
-            "\nExamples:\n" +
-            HelpExampleCli("dumpallprivatekeys", "\"test\"") + HelpExampleRpc("dumpallprivatekeys", "\"test\""));
+	if (fHelp || params.size() != 1)
+		throw runtime_error(
+			"dumpallprivatekeys \"filename\"\n"
+			"\nDumps all wallet private keys in an unencrypted, human-readable format.\n"
+			"\nSCAM WARNING: If anyone asks you to run this command and send them the file,\n"
+			"they will have FULL ACCESS to STEAL your Altbet. Giving this file to someone\n"
+			"is the same thing as giving them all of the Altbet in your wallet! Never send\n"
+			"this file to ANYONE that you do not trust with all of your Altbet!!!\n"
+			"\nArguments:\n"
+			"1. \"filename\"    (string, required) The filename\n"
+			"\nExamples:\n" +
+			HelpExampleCli("dumpallprivatekeys", "\"test\"") + HelpExampleRpc("dumpallprivatekeys", "\"test\""));
 
-    LOCK2(cs_main, pwalletMain->cs_wallet);
+	LOCK2(cs_main, pwalletMain->cs_wallet);
 
-    EnsureWalletIsUnlocked();
+	EnsureWalletIsUnlocked();
 
-    ofstream file;
-    file.open(params[0].get_str().c_str());
-    if (!file.is_open())
-        throw JSONRPCError(RPC_INVALID_PARAMETER, "Cannot open wallet private key dump file");
+	ofstream file;
+	file.open(params[0].get_str().c_str());
+	if (!file.is_open())
+		throw JSONRPCError(RPC_INVALID_PARAMETER, "Cannot open wallet private key dump file");
 
-    std::map<CKeyID, int64_t> mapKeyBirth;
-    std::set<CKeyID> setKeyPool;
-    pwalletMain->GetKeyBirthTimes(mapKeyBirth);
-    pwalletMain->GetAllReserveKeys(setKeyPool);
+	std::map<CKeyID, int64_t> mapKeyBirth;
+	std::set<CKeyID> setKeyPool;
+	pwalletMain->GetKeyBirthTimes(mapKeyBirth);
+	pwalletMain->GetAllReserveKeys(setKeyPool);
 
-    // sort time/key pairs
-    std::vector<std::pair<int64_t, CKeyID> > vKeyBirth;
-    for (std::map<CKeyID, int64_t>::const_iterator it = mapKeyBirth.begin(); it != mapKeyBirth.end(); it++) {
-        vKeyBirth.push_back(std::make_pair(it->second, it->first));
-    }
-    mapKeyBirth.clear();
-    std::sort(vKeyBirth.begin(), vKeyBirth.end());
+	// sort time/key pairs
+	std::vector<std::pair<int64_t, CKeyID> > vKeyBirth;
+	for (std::map<CKeyID, int64_t>::const_iterator it = mapKeyBirth.begin(); it != mapKeyBirth.end(); it++) {
+		vKeyBirth.push_back(std::make_pair(it->second, it->first));
+	}
+	mapKeyBirth.clear();
+	std::sort(vKeyBirth.begin(), vKeyBirth.end());
 
-    // produce output
-    file << strprintf("# Wallet private key dump file created by Altbet %s (%s)\n", CLIENT_BUILD, CLIENT_DATE);
-    file << strprintf("# * Created on %s\n", EncodeDumpTime(GetTime()));
-    file << strprintf("# * Best block at time of backup was %i (%s),\n", chainActive.Height(), chainActive.Tip()->GetBlockHash().ToString());
-    file << strprintf("#   mined on %s\n", EncodeDumpTime(chainActive.Tip()->GetBlockTime()));
-    file << "\n";
-    for (std::vector<std::pair<int64_t, CKeyID> >::const_iterator it = vKeyBirth.begin(); it != vKeyBirth.end(); it++) {
-        const CKeyID& keyid = it->second;
-        std::string strTime = EncodeDumpTime(it->first);
-        std::string strAddr = EncodeDestination(CTxDestination(keyid));
+	// produce output
+	file << strprintf("# Wallet private key dump file created by Altbet %s (%s)\n", CLIENT_BUILD, CLIENT_DATE);
+	file << strprintf("# * Created on %s\n", EncodeDumpTime(GetTime()));
+	file << strprintf("# * Best block at time of backup was %i (%s),\n", chainActive.Height(), chainActive.Tip()->GetBlockHash().ToString());
+	file << strprintf("#   mined on %s\n", EncodeDumpTime(chainActive.Tip()->GetBlockTime()));
+	file << "\n";
+	for (std::vector<std::pair<int64_t, CKeyID> >::const_iterator it = vKeyBirth.begin(); it != vKeyBirth.end(); it++) {
+		const CKeyID& keyid = it->second;
+		std::string strTime = EncodeDumpTime(it->first);
+		std::string strAddr = EncodeDestination(CTxDestination(keyid));
 
-        CKey key;
-        if (pwalletMain->GetKey(keyid, key)) {
-            if (pwalletMain->mapAddressBook.count(keyid)) {
-                file << strprintf("%s %s label=%s # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, EncodeDumpString(pwalletMain->mapAddressBook[keyid].name), strAddr);
-            } else if (setKeyPool.count(keyid)) {
-                file << strprintf("%s %s reserve=1 # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, strAddr);
-            } else {
-                file << strprintf("%s %s change=1 # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, strAddr);
-            }
-        }
-    }
-    file << "\n";
-    file << "# End of dump\n";
-    file.close();
-    return NullUniValue;
+		CKey key;
+		if (pwalletMain->GetKey(keyid, key)) {
+			if (pwalletMain->mapAddressBook.count(keyid)) {
+				file << strprintf("%s %s label=%s # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, EncodeDumpString(pwalletMain->mapAddressBook[keyid].name), strAddr);
+			}
+			else if (setKeyPool.count(keyid)) {
+				file << strprintf("%s %s reserve=1 # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, strAddr);
+			}
+			else {
+				file << strprintf("%s %s change=1 # addr=%s\n", CBitcoinSecret(key).ToString(), strTime, strAddr);
+			}
+		}
+	}
+	file << "\n";
+	file << "# End of dump\n";
+	file.close();
+	return NullUniValue;
+}
+
+UniValue dumpallprivatekeys_abet(const UniValue& params, bool fHelp)
+{
+	if (fHelp || params.size() < 1 || params.size() > 2)
+		throw std::runtime_error(
+			"dumpwallet \"filename\"\n"
+			"\nDumps all wallet keys in a human-readable format.\n"
+			"\nArguments:\n"
+			"1. \"filename\"             (string, required) The filename\n"
+			"2. \"one-time-auth-code\"   (string, optional) A one time authorization code received from a previous call of dumpwallet"
+			"\nExamples:\n"
+			+ HelpExampleCli("dumpwallet", "\"test\"")
+			+ HelpExampleCli("dumpwallet", "\"test\" \"12aB\"")
+			+ HelpExampleRpc("dumpwallet", "\"test\"")
+			+ HelpExampleRpc("dumpwallet", "\"test\",\"12aB\"")
+		);
+
+	if (params.size() == 1 || !AuthorizationHelper::inst().authorize(__FUNCTION__ + params[0].get_str(), params[1].get_str()))
+	{
+		std::string warning =
+			"WARNING! Your one time authorization code is: " + AuthorizationHelper::inst().generateAuthorizationCode(__FUNCTION__ + params[0].get_str()) + "\n"
+			"This command exports your wallet private key. Anyone with this key has complete control over your funds. \n"
+			"If someone asked you to type in this command, chances are they want to steal your coins. \n"
+			"Altbet team members will never ask for this command's output and it is not needed for masternode setup or diagnosis!\n";
+		throw std::runtime_error(warning);
+	}
+
+	UniValue dumpParams;
+	dumpParams.setArray();
+	dumpParams.push_back(params[0]);
+
+	return dumpwallet(dumpParams, false);
 }
 
 UniValue bip38encrypt(const UniValue& params, bool fHelp)
