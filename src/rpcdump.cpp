@@ -427,46 +427,6 @@ UniValue dumpprivkey(const UniValue& params, bool fHelp)
 	return CBitcoinSecret(vchSecret).ToString();
 }
 
-//Compiled but didnt work
-/*UniValue dumpprivkey(const UniValue& params, bool fHelp)
-{
-	if (fHelp || params.empty() || params.size() > 2)
-			throw runtime_error(
-				"dumpprivkey \"altbetaddress\"\n"
-				"\nReveals the private key corresponding to 'altbetaddress'.\n"
-				"Then the importprivkey can be used with this output\n"
-				"\nArguments:\n"
-				"1. \"altbetaddress\"   (string, required) The altbet address for the private key\n"
-				"\nResult:\n"
-				"\"key\"                (string) The private key\n"
-				"\nExamples:\n"
-				+ HelpExampleCli("dumpprivkey", "\"myaddress\"")
-				+ HelpExampleCli("importprivkey", "\"mykey\"")
-				+ HelpExampleRpc("dumpprivkey", "\"myaddress\"")
-			);
-
-	LOCK2(cs_main, pwalletMain->cs_wallet);
-
-	EnsureWalletIsUnlocked();
-
-	if (params.size() == 1 || !AuthorizationHelper::inst().authorize(__FUNCTION__ + params[0].get_str(), params[1].get_str()))
-	{
-		std::string warning =
-			"WARNING! Your one time authorization code is: " + AuthorizationHelper::inst().generateAuthorizationCode(__FUNCTION__ + params[0].get_str()) + "\n"
-			"This command exports your wallet private key. Anyone with this key has complete control over your funds. \n"
-			"If someone asked you to type in this command, chances are they want to steal your coins. \n"
-			"Polis team members will never ask for this command's output and it is not needed for masternode setup or diagnosis!\n"
-			;
-		throw std::runtime_error(warning);
-	}
-
-	UniValue dumpParams;
-	dumpParams.setArray();
-	dumpParams.push_back(params[0]);
-
-	return dumpprivkey(dumpParams, false);
-}*/
-
 UniValue dumpprivkey_abet(const UniValue& params, bool fHelp)
 {
 	if (fHelp || params.empty() || params.size() > 2)
