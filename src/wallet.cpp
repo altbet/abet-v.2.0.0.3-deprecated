@@ -2089,8 +2089,11 @@ bool CWallet::SelectStakeCoins(std::set<std::pair<const CWalletTx*, unsigned int
             continue;
 
 		//check for minimal stake input after fork
-		if (ActiveProtocol() >= STAKEV2_VERSION) {
+		if (ActiveProtocol() >= STAKEV2_VERSION && ActiveProtocol() < STAKEV3_VERSION) {
 			if (out.tx->vout[out.i].nValue < Params().StakeInput())
+				continue;
+		}else if (ActiveProtocol() >= STAKEV3_VERSION) {
+			if (out.tx->vout[out.i].nValue < Params().StakeInputV2())
 				continue;
 		}
 

@@ -149,6 +149,7 @@ public:
         nMasternodeCollateralAmtNew = 5000;
         nMasternodeCollateralAmtNewEnd = 10000;
         nMinStakeInput = 15 * COIN;
+		nMinStakeInputV2 = 30 * COIN;
         nModifierUpdateBlock = 615800;
         nMaxMoneyOut = 21000000 * COIN;
         nStartTreasuryBlock = 192021;

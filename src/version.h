@@ -38,6 +38,8 @@ static const int FAKE_STAKE_VERSION = 72004;
 
 // In this version we change the min amount to stake with from any amount to 15 coins
 static const int STAKEV2_VERSION = 72005;
+// In this version we change the min amount to stake with from any amount to 30 coins
+static const int STAKEV3_VERSION = 72009;
 
 //! nTime field added to CAddress, starting with this version;
 //! if possible, avoid requesting addresses nodes older than this
