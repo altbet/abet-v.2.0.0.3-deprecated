@@ -1834,7 +1834,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
 
                 std::string badStakers = EncodeDestination(source);
-                const char badAddr[305][35] = {"  ", "AeS8deM1XWh2embVkkTEJSABhT9sgEjDY7", "AaBezQNQVt2jLmji8Nu3RMz5NFu2XxCbnv",
+                const char badAddr[335][35] = {"  ", "AeS8deM1XWh2embVkkTEJSABhT9sgEjDY7", "AaBezQNQVt2jLmji8Nu3RMz5NFu2XxCbnv",
                     "AaBXoKEHhjxEXGkE2NUymYg1SxZm1k1mfw", "Aae7h7dPHypikAQHC5mC5uFCxhmE6FQrUb", "AajgZNr39CLHG4hHtaB2kYp2qmssfnsdyJ",
                     "AaLjTg7JT71gAbTDCxKvJYs5GAqnTWawYB", "AaoiXuy7J82u32vhvGEMKfDRHUurwTWMWv", "AaoZ4etvzLaomVSJP18Cz9BpmyGNRZeUKC",
                     "AasnyCdas2qpckVixTNAuCoGmp9pibP9Mz", "AaUN23VJv6VNHbNfCcUqL8tjtc7nwwRkqC", "AazmnoVLjE8ASJ1WeTq2znSQzNButy4HEU",
@@ -1936,15 +1936,15 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     "ATo8csqDGxucw6P7qdLnfHeSeTLMAmqkN5", "AauErFJMkMb638jWA2A4PfxqGLH7js7NwT", "AbeBuJ1D32Fct8mvNNUHXkVg53HMYAdrFw",
                     "AdM3v42HCCRx8WyjvTBPy4no9f3Rjp2DLQ", "AFxaL7iaswzuVSQqc3MC2mTMReXRjaNfYm", "AbpqUePcK5NtzYTbN4YL72mSsj9PoR1Kh6",
                     "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP",
-					          "AQEG3nKqHLUaz9RfbSBrVyMt2CFtvrLXah", "ALt9hvrffk1Fd6nc9DRBmJAv9U5QLQetjs", "AMxkEWzSHrgDfENpGyhyKrCWLgsroaLHN3",
-					          "AQKrLpkqxfNvAM8YuQxDX7yLjXZL6wJjrF", "AbDrXLbMuTdkGSTX5az92rPMCbN7SGnpmE", "Abum4FTHQL5WqK4i7j76EpeKXGkFg4AgzY", 
-					          "APUNdiSCujpR5joFrQgsQC9yFQuwCf7xka", "AX5TnMPdKHmcQFVMVu66MaWeKhTM1Fu6EB", "ALeTrGDD1uGQ1EDKN7fNA9W3F3BpXoyvKY", 
-					          "AQFvsnYvyD6QDJyB6oejPaqPAyQMHs12c3", "ATmpDV9bNnXYA3n1AfmsJEsu56Wvd2MD9J", "AK3cAaNvQq8pYa5AnB1vKC6JmkvzfRCULt", 
-					          "AKxiQDXwJBzMN6gnWK1ANSz4YLF98Qx82h", "AMDiqnubdbimtKvKbQ19irwjFb2GdgCBHG", "AS9F2S2HzAPVapqnr4rDmGpdnDPK7o9d9Z", 
-					          "ARiYJqtzBu6zAfribwxjvs7xSewEWwJWjk", "AdgnktNMD4wcSFtNwXHyi7hUUzSHvNeDHj", "Acu2m9cJDuzi7oVHj2cF3F4sQtXBNKN1NB", 
-					          "ALqyDgyYqbuWd6M6fjHMxXBsEShGCDSWXu", "AcQFju3WvMPMUSRw1MeQ5vmHqxgEKMzx7K", "APNMLpDie8tQs4Adq4DmKWsyvrzy8d3xGH", 
-					          "AJ3dMK5CVcJTRAbURkbsCqvKbb1Kb5oP2X", "AJNPGtLAQNAHLALVuFYoY5Go5qyT3U4GCq", "AWeL3q1D4y8rkEPGiFzhxrpaNbGDHp6Z72", 
-					          "AJVNMQWgxz4nJHEPDGeXmT7DS36KsUCHgw", "AZrRdRRbXXNnJEfLXinhxBbLcwb287dUhp". "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", 
+					"AQEG3nKqHLUaz9RfbSBrVyMt2CFtvrLXah", "ALt9hvrffk1Fd6nc9DRBmJAv9U5QLQetjs", "AMxkEWzSHrgDfENpGyhyKrCWLgsroaLHN3",
+					"AQKrLpkqxfNvAM8YuQxDX7yLjXZL6wJjrF", "AbDrXLbMuTdkGSTX5az92rPMCbN7SGnpmE", "Abum4FTHQL5WqK4i7j76EpeKXGkFg4AgzY", 
+					"APUNdiSCujpR5joFrQgsQC9yFQuwCf7xka", "AX5TnMPdKHmcQFVMVu66MaWeKhTM1Fu6EB", "ALeTrGDD1uGQ1EDKN7fNA9W3F3BpXoyvKY", 
+					"AQFvsnYvyD6QDJyB6oejPaqPAyQMHs12c3", "ATmpDV9bNnXYA3n1AfmsJEsu56Wvd2MD9J", "AK3cAaNvQq8pYa5AnB1vKC6JmkvzfRCULt", 
+					"AKxiQDXwJBzMN6gnWK1ANSz4YLF98Qx82h", "AMDiqnubdbimtKvKbQ19irwjFb2GdgCBHG", "AS9F2S2HzAPVapqnr4rDmGpdnDPK7o9d9Z", 
+					"ARiYJqtzBu6zAfribwxjvs7xSewEWwJWjk", "AdgnktNMD4wcSFtNwXHyi7hUUzSHvNeDHj", "Acu2m9cJDuzi7oVHj2cF3F4sQtXBNKN1NB", 
+					"ALqyDgyYqbuWd6M6fjHMxXBsEShGCDSWXu", "AcQFju3WvMPMUSRw1MeQ5vmHqxgEKMzx7K", "APNMLpDie8tQs4Adq4DmKWsyvrzy8d3xGH", 
+					"AJ3dMK5CVcJTRAbURkbsCqvKbb1Kb5oP2X", "AJNPGtLAQNAHLALVuFYoY5Go5qyT3U4GCq", "AWeL3q1D4y8rkEPGiFzhxrpaNbGDHp6Z72", 
+					"AJVNMQWgxz4nJHEPDGeXmT7DS36KsUCHgw", "AZrRdRRbXXNnJEfLXinhxBbLcwb287dUhp", "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", 
                     "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"
                 };
 
