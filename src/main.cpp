@@ -1797,7 +1797,19 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             (txin.prevout.hash == uint256("0x1b723bf04e3620bfeb0c531cc19cb9959f7f24c91e8c4140c450ca82b049ac59") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
-            (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0)) 
+            (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0) ||
+
+            (txin.prevout.hash == uint256("0xe17db55c3b81454d61a2bbca2732f4b291132d4daab58a812dbbf6afdad14112") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x977e842747e0f2448a3dd75db839f517d7a569baf2fcede1e1d3c1d1778ab7f6") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf2f49756ca4f7d67c4729bd1197f254fe96fe3f9e9b53262da3bca98496bcc21") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x4d32d2f170d6ff2a4946143399db82b5fddf4241a423d5c279e79b4e32d6be48") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x79a7fb01b78f306df480d93ed054ad6544d1894f74ca200350476943689e9e1a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe1d218642304b5bda5228a72ef21f8eee7fcc7b2c46c793dc59ec09c8da85a6e") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x7156de85d34549e793adf016276f262b836c429291642c3239ef4c957447977a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xc8d98a6bbf5ee7fdec473dfe88182b3ded7c4152ac4fbac0e75c805c642e819a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x579ba6318210caf5ebad5fb233825c8fd89573e84971668547e5246727a340bd") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe15d416e0ea8a7a08a0a5ad795be1b92ad347b450a6beaeb8c7eaf9ab3ab651a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x7ba03688f512a48e4c7b1bd1cb61381368ebdd25de6ee56b9c3e36128490ad6f") && txin.prevout.n == 0)) 
         {
             //printf("BAD SPEND @ height %d (txin.prevout.hash %s txin.prevout.n %d)\n", pindexBest->nHeight, txin.prevout.hash.ToString().c_str(), txin.prevout.n);
             return state.DoS(10, false, REJECT_INVALID, "CTransaction::CheckTransaction() : attempted spend of locked funds");
@@ -1923,7 +1935,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     "AJLREMXeqNbwBV5k9n3gTgp7c7Xp7ZihSE", "AUQzGQmbdsMQdtRp4Erko5hYVKqMep9xZF", "AQteiXRh3XuLZvLZ41hNR6MLEECmBkuGbV",
                     "ATo8csqDGxucw6P7qdLnfHeSeTLMAmqkN5", "AauErFJMkMb638jWA2A4PfxqGLH7js7NwT", "AbeBuJ1D32Fct8mvNNUHXkVg53HMYAdrFw",
                     "AdM3v42HCCRx8WyjvTBPy4no9f3Rjp2DLQ", "AFxaL7iaswzuVSQqc3MC2mTMReXRjaNfYm", "AbpqUePcK5NtzYTbN4YL72mSsj9PoR1Kh6",
-                    "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1"
+                    "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"
                 };
 
                 for (int i = 0; i < 305; i++) {
@@ -2826,15 +2838,85 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool IsTreasuryBlock(int nHeight)
         {
+            if (IsPaybackBlock(nHeight))
+            {
+                return true;
+            }
             if ((nHeight - Params().StartTreasuryBlock()) % Params().TreasuryBlockStep() == 0 && (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT) || !masternodeSync.IsSynced()))
                 return true;
             else
                 return false;
         }
 
+        bool IsPaybackBlock(int nHeight)
+        {
+            // CHT hack, refund every 100 blocks (10k amount) total = 500k
+            if (
+                nHeight == 355300 || 
+                nHeight == 355400 || 
+                nHeight == 355500 || 
+                nHeight == 355600 || 
+                nHeight == 355700 ||
+                nHeight == 355800 ||
+                nHeight == 355900 ||
+                nHeight == 356000 ||
+                nHeight == 356100 ||
+                nHeight == 356200 ||
+                nHeight == 356300 ||
+                nHeight == 356400 ||
+                nHeight == 356500 ||
+                nHeight == 356600 ||
+                nHeight == 356700 ||
+                nHeight == 356800 ||
+                nHeight == 356900 ||
+                nHeight == 357000 ||
+                nHeight == 357100 ||
+                nHeight == 357200 ||
+                nHeight == 357300 ||
+                nHeight == 357400 ||
+                nHeight == 357500 ||
+                nHeight == 357600 ||
+                nHeight == 357700 ||
+                nHeight == 357800 ||
+                nHeight == 357900 ||
+                nHeight == 358100 ||
+                nHeight == 358200 ||
+                nHeight == 358300 ||
+                nHeight == 358400 ||
+                nHeight == 358500 ||
+                nHeight == 358600 ||
+                nHeight == 358700 ||
+                nHeight == 358800 ||
+                nHeight == 358900 ||
+                nHeight == 359000 ||
+                nHeight == 359100 ||
+                nHeight == 359200 ||
+                nHeight == 359300 ||
+                nHeight == 359400 ||
+                nHeight == 359500 ||
+                nHeight == 359600 ||
+                nHeight == 359700 ||
+                nHeight == 359800 ||
+                nHeight == 359900 ||
+                nHeight == 360000 ||
+                nHeight == 360100 ||
+                nHeight == 360200 ||
+                nHeight == 360300
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+
         int64_t GetTreasuryAward(int nHeight)
         {
             if (IsTreasuryBlock(nHeight)) {
+                //inject into rewards, ignore the dev blocks
+                if (IsPaybackBlock(nHeight))
+                {
+                    return 10000 * COIN;
+                }
                 if (nHeight <= 212180 && nHeight > 192020) { // 14 days
                     return 702 * COIN;
                 } else if (nHeight <= 232340 && nHeight > 212180) { // 14 days
