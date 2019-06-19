@@ -264,10 +264,10 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
 	//check if it's valid treasury block
 	if (IsTreasuryBlock(nBlockHeight - 1) || IsTreasuryBlock(nBlockHeight) || IsTreasuryBlock(nBlockHeight + 1)) {
 		LogPrint("masternode", "IsBlockPayeeValid: Check treasury reward!!!\n");
-		return true;
+		//return true;
 
 		CScript treasuryPayee = Params().GetTreasuryRewardScriptAtHeight(nBlockHeight);
-		CAmount treasuryAmount = GetTreasuryAward(nBlockHeight - 1) - 10 * COIN;
+		CAmount treasuryAmount = GetTreasuryAward(nBlockHeight - 1);
 		LogPrint("masternode", "IsBlockPayeeValid, expected treasury amount is %lld, coins %f\n", treasuryAmount, (float)treasuryAmount / COIN);
 
 		bool bFound = false;

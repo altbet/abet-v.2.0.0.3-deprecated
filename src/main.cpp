@@ -98,6 +98,9 @@ bool fAlerts = DEFAULT_ALERTS;
 unsigned int nStakeMinAge = 1 * 60 * 60;
 unsigned int StakeMinAgev2()
 {
+    if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+        return 60;
+    }
     if (chainActive.Height() > 192021)
         return 3 * 60 * 60;
     return nStakeMinAge;
@@ -1425,7 +1428,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         }
     }
 
-	for (const CTxIn& txin : tx.vin) {
+    for (const CTxIn& txin : tx.vin) {
         // check if vin is known stolen/frozen fund (will disregard the tx/block)
         if ((txin.prevout.hash == uint256("0xff8789138a6ea9c2aaadb11bd739986d6fba97793db2f768e1783e5a4345d88c") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0x0702a32587cd06c9ea68c37789b08a6684b09c57388496a80a2e170b3f73a359") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0xfe3a44e85838eb34e21938c968ba27b8edb6984be0ec251e1d70a628132872df") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0xffd80ef108adf22a3b3eb89df1b81bc46a9ac6293827cac78049b68103bc8b1a") && txin.prevout.n == 0) ||
@@ -1735,74 +1738,86 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             (txin.prevout.hash == uint256("0x33170ffeadcbe8d43d6be4e3eb36cd4b76a1e51fdc205d626766c69351b15676") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0x2e9c3e0a36edc022b182f98ee51ecae763514329589c773c0258610433a8b75e") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0xcd3ce0a9e0e2e0fee21942e37937e8b098c95f7935af0f66cffe1d18b85ce7f4") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0x2e63cb84cdbb58b69b3eef989026018780bc9b8e977786ae2077c9a1e4daf94b") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x44e36aec3de96c0551441b8223cedc741dfaf690e79780491e7244e3a65bfaa6") && txin.prevout.n == 0) || (txin.prevout.hash == uint256("0xb73bcba84d6799002e38fe6032a7c89767bbbc1de79f51e2f11eea11ed0d2116") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x831454f1889f9801cbd7e27b250fe3036da023a6d430aff714310c281c0fba26") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x894c43a368f5757305c24dcafadd7dc4338e05d5567d7941be117874dc8f6376") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe722c088e06fd639b93cbbce0cddee32ff13d8fbe88625e1662591c0001b0247") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x06b6dd4529ca2e06cddfced23f03ca77d79037d461eca6597e678b1d7d14ee60") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xf7af194ab19847c060a704a11f82e330fd5d74b4e81693e3f9741aadfc5242bf") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x9841fd3d883959f21cb824150587d42e0e120b43fa04ae2fa9bc3c7b7c477595") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xdd2ba804faddd2c89bd64db7f30f911102e26ddb9dbecf28bc166bf58e78a480") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x9978fad83310efc3a867897a5054f04256f7b6c5ae2e4ea6e8d4beb3be3e540e") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xca867fa4229dc3fb7bfce73b53fb0852e37349b2419de93f462b36d4b4d68eb0") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xbf01c81c239da73f0092c9d3da2fb0c7deb7239762114730540d19411f286bf6") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x420b64da0d89f1c89a515cab9fd8512673fc79e95963a8c1aca24bc01564f551") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x2ba47903ef0ea2ff407d51e6761739a47396641684bb0ca9b51fe1535062e4ce") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x56d1c477492ad55b7b812872a201efbe0045b43aa912a41b4e2b2492f909929a") && txin.prevout.n == 0) ||
-		    (txin.prevout.hash == uint256("0x46dff6a046aaa6cdfc5bd1262847b69e51ce6be4f7112713b16c8b3109a6baac") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe7bfb5c949f89ecc1db2f81c51fae61c8fcbf1e78bca462802b486d492af24e5") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x32f8d08fc3494b3e334371e9d9af0d58e2db4abedb91d7102d0da08efa1aa4c7") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x8244e8f1073cfe930dc3082a3615e6165c80bba367be13fa5c8b4aa0988d74c5") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xa1a9caf266291e95b0d738aa1a06654e268fd1c67c61af01e1db3e0072785a1c") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xdf8b0638379a356f9222af450532cb63d13ce69375ded0f5f61a62f33e9f2308") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe897e2623173f361575b7aeb06624c4cb72bf8cd90092ad76a6ece47a89f5f4a") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x5265429abd872da02582cff24b40c31bf1d40fd98d2703bf20714e7b5819d423") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd49e8c5645b77719c63f135991a12ad2a7cdf64851262629cada6841df4f8cc0") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xf5e49a66ccdbe88abab04bbfda36472fe4ed27ceeabeb1bd9d999b46e367ae13") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xfe50b91e5fc8495e13c2c854a812edb5048e0b9ed58eba1ec961f08d687c7d0c") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x7d56bb53059b04e1290dac0dba64af8d73d2dc01ba42022a651957063265ec5c") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x25a2e0c9d6db44df2bec3d1088dd4762e1b48dce3e94d9982cb081446bc858fb") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x51be2b9ec72fd7abc49625b731e156276caf9617b8b2876ea2903b380e2dfbed") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xdd46cb503673ac14d8267a62e0e6a90e8b94d16a03a2afde12f565e75c84e20a") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd3417efd188ff8e6401286888f76818bf7331f5ad36ad8aa9821d0115c949bf4") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x9d50cfd3b440acff022f0d145fb1b39f6e7048766253acad83c6a678ac9c87ed") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe0cbafcf75e1e824e9bbcc45e333db035cbe11ff173c8060acb3f122405e9168") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xfcb4b7ed10ea64eb0acb881021f7bada3d7f40882259a7bd377feb3f099d0d74") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xc1b7e775292176dd453ca9db4d588894348a48e4db32b51468ddeb3c50846345") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd18d68fbb0ee97afb0600778600cedcfc08e6320f9ec1bb4f548de865825ffcb") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd96a3186f09ecadb428ffcc8360e8cd02a456fbfa551605bcf68ad88b3849287") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd2c45f1a7965a7434c21c28e5cae0cb4d1cf0cc53d2b41f4c5a560937b80ed24") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x0e25374569e8d5a325f9fda6c23b66d1af45034aa9795708029c2ceda5cc8744") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xb6c76b905c420ea532fd02589d660bbbce7ac4fab0985cbe7c3c3f16ece540bc") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xd474dd7ccbc3e6e46e5221e5adf22d0a20218237917f13faf1d965416a667152") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xb6554bdd290c2eaf8827c83056488c53b105f6c15d25862ba49bfe8e0d227024") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x893099a53c514e01ac3abd3e0ad1646e3be16f9a090056ff72e5d5600e59ef70") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xca2ac27b911ca7c3dffbb464dc7641628d385eefdee3fdef73513349d152efcd") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x8a94da69a36d81b5cea92fe37edc5072f970c4c5f5f9cddf2fd9b9d17bcfd2b7") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x0cd42c3985b27acafef0a0a46ad21522db75e5ede648ebfa9b7c0a370d30f2fa") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xf2e42660aa61b4c64cf938223bbc654a70f03576c8daf3b2fb185eebd36b6fe0") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x2e129ef9a33bd8fe4d39da129889f0f29a743221731fc42449e66de2661b0170") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xf9cfdee6b67a92676b7ab900f50db323b2cdfe6ec89b8acb2361e2655c5bd9b0") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x8dfc8b782aa86e4a649b329d11985bb0dc4f97f8207d7ccf8851fd4fd11ffa4e") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe742cd71af5e6c6ec3adca9b6b7896ccb55ffb09a53ab7f0572913568d58781f") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xfe0cf4911a1dffbca0b541724be1dc584cd02bb43e3cbab216cce7f2ee7ed4ba") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x88b2299b6f7a0df2403a91147572197a2f759e440dbbffdee56380ad43cf3e5d") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x6db1e97c1ae560359b9a6906677ac030024cc9c0df2bbb32e8386731a7e6bf07") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x474675bfc736c2fdba37d230d38dccc8fcb2422417dfaeccaaa8ac9f7ddaba0b") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x732ee69027fc0c19ea1fa0f8aad451c2fdb141e7d9cb6236c284c6479af54d7c") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xc61c0f0d94cee493173e85ab6c447c2a540bfbd2185c3c101584edea7e03a6c8") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x4448f17b223a305a5ad0e63eae14685d1748f14f39898a996cbc9f250a910d12") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x1b723bf04e3620bfeb0c531cc19cb9959f7f24c91e8c4140c450ca82b049ac59") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
-			(txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
-            (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0)) 
-		{
+            (txin.prevout.hash == uint256("0x831454f1889f9801cbd7e27b250fe3036da023a6d430aff714310c281c0fba26") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x894c43a368f5757305c24dcafadd7dc4338e05d5567d7941be117874dc8f6376") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe722c088e06fd639b93cbbce0cddee32ff13d8fbe88625e1662591c0001b0247") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x06b6dd4529ca2e06cddfced23f03ca77d79037d461eca6597e678b1d7d14ee60") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf7af194ab19847c060a704a11f82e330fd5d74b4e81693e3f9741aadfc5242bf") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x9841fd3d883959f21cb824150587d42e0e120b43fa04ae2fa9bc3c7b7c477595") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xdd2ba804faddd2c89bd64db7f30f911102e26ddb9dbecf28bc166bf58e78a480") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x9978fad83310efc3a867897a5054f04256f7b6c5ae2e4ea6e8d4beb3be3e540e") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xca867fa4229dc3fb7bfce73b53fb0852e37349b2419de93f462b36d4b4d68eb0") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xbf01c81c239da73f0092c9d3da2fb0c7deb7239762114730540d19411f286bf6") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x420b64da0d89f1c89a515cab9fd8512673fc79e95963a8c1aca24bc01564f551") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x2ba47903ef0ea2ff407d51e6761739a47396641684bb0ca9b51fe1535062e4ce") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x56d1c477492ad55b7b812872a201efbe0045b43aa912a41b4e2b2492f909929a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x46dff6a046aaa6cdfc5bd1262847b69e51ce6be4f7112713b16c8b3109a6baac") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe7bfb5c949f89ecc1db2f81c51fae61c8fcbf1e78bca462802b486d492af24e5") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x32f8d08fc3494b3e334371e9d9af0d58e2db4abedb91d7102d0da08efa1aa4c7") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x8244e8f1073cfe930dc3082a3615e6165c80bba367be13fa5c8b4aa0988d74c5") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xa1a9caf266291e95b0d738aa1a06654e268fd1c67c61af01e1db3e0072785a1c") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xdf8b0638379a356f9222af450532cb63d13ce69375ded0f5f61a62f33e9f2308") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe897e2623173f361575b7aeb06624c4cb72bf8cd90092ad76a6ece47a89f5f4a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x5265429abd872da02582cff24b40c31bf1d40fd98d2703bf20714e7b5819d423") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd49e8c5645b77719c63f135991a12ad2a7cdf64851262629cada6841df4f8cc0") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf5e49a66ccdbe88abab04bbfda36472fe4ed27ceeabeb1bd9d999b46e367ae13") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xfe50b91e5fc8495e13c2c854a812edb5048e0b9ed58eba1ec961f08d687c7d0c") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x7d56bb53059b04e1290dac0dba64af8d73d2dc01ba42022a651957063265ec5c") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x25a2e0c9d6db44df2bec3d1088dd4762e1b48dce3e94d9982cb081446bc858fb") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x51be2b9ec72fd7abc49625b731e156276caf9617b8b2876ea2903b380e2dfbed") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xdd46cb503673ac14d8267a62e0e6a90e8b94d16a03a2afde12f565e75c84e20a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd3417efd188ff8e6401286888f76818bf7331f5ad36ad8aa9821d0115c949bf4") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x9d50cfd3b440acff022f0d145fb1b39f6e7048766253acad83c6a678ac9c87ed") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe0cbafcf75e1e824e9bbcc45e333db035cbe11ff173c8060acb3f122405e9168") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xfcb4b7ed10ea64eb0acb881021f7bada3d7f40882259a7bd377feb3f099d0d74") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xc1b7e775292176dd453ca9db4d588894348a48e4db32b51468ddeb3c50846345") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd18d68fbb0ee97afb0600778600cedcfc08e6320f9ec1bb4f548de865825ffcb") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd96a3186f09ecadb428ffcc8360e8cd02a456fbfa551605bcf68ad88b3849287") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd2c45f1a7965a7434c21c28e5cae0cb4d1cf0cc53d2b41f4c5a560937b80ed24") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x0e25374569e8d5a325f9fda6c23b66d1af45034aa9795708029c2ceda5cc8744") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xb6c76b905c420ea532fd02589d660bbbce7ac4fab0985cbe7c3c3f16ece540bc") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xd474dd7ccbc3e6e46e5221e5adf22d0a20218237917f13faf1d965416a667152") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xb6554bdd290c2eaf8827c83056488c53b105f6c15d25862ba49bfe8e0d227024") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x893099a53c514e01ac3abd3e0ad1646e3be16f9a090056ff72e5d5600e59ef70") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xca2ac27b911ca7c3dffbb464dc7641628d385eefdee3fdef73513349d152efcd") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x8a94da69a36d81b5cea92fe37edc5072f970c4c5f5f9cddf2fd9b9d17bcfd2b7") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x0cd42c3985b27acafef0a0a46ad21522db75e5ede648ebfa9b7c0a370d30f2fa") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf2e42660aa61b4c64cf938223bbc654a70f03576c8daf3b2fb185eebd36b6fe0") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x2e129ef9a33bd8fe4d39da129889f0f29a743221731fc42449e66de2661b0170") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf9cfdee6b67a92676b7ab900f50db323b2cdfe6ec89b8acb2361e2655c5bd9b0") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x8dfc8b782aa86e4a649b329d11985bb0dc4f97f8207d7ccf8851fd4fd11ffa4e") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe742cd71af5e6c6ec3adca9b6b7896ccb55ffb09a53ab7f0572913568d58781f") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xfe0cf4911a1dffbca0b541724be1dc584cd02bb43e3cbab216cce7f2ee7ed4ba") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x88b2299b6f7a0df2403a91147572197a2f759e440dbbffdee56380ad43cf3e5d") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x6db1e97c1ae560359b9a6906677ac030024cc9c0df2bbb32e8386731a7e6bf07") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x474675bfc736c2fdba37d230d38dccc8fcb2422417dfaeccaaa8ac9f7ddaba0b") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x732ee69027fc0c19ea1fa0f8aad451c2fdb141e7d9cb6236c284c6479af54d7c") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xc61c0f0d94cee493173e85ab6c447c2a540bfbd2185c3c101584edea7e03a6c8") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x4448f17b223a305a5ad0e63eae14685d1748f14f39898a996cbc9f250a910d12") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x1b723bf04e3620bfeb0c531cc19cb9959f7f24c91e8c4140c450ca82b049ac59") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0) ||
+
+            (txin.prevout.hash == uint256("0xe17db55c3b81454d61a2bbca2732f4b291132d4daab58a812dbbf6afdad14112") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x977e842747e0f2448a3dd75db839f517d7a569baf2fcede1e1d3c1d1778ab7f6") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xf2f49756ca4f7d67c4729bd1197f254fe96fe3f9e9b53262da3bca98496bcc21") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x4d32d2f170d6ff2a4946143399db82b5fddf4241a423d5c279e79b4e32d6be48") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x79a7fb01b78f306df480d93ed054ad6544d1894f74ca200350476943689e9e1a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe1d218642304b5bda5228a72ef21f8eee7fcc7b2c46c793dc59ec09c8da85a6e") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x7156de85d34549e793adf016276f262b836c429291642c3239ef4c957447977a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xc8d98a6bbf5ee7fdec473dfe88182b3ded7c4152ac4fbac0e75c805c642e819a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x579ba6318210caf5ebad5fb233825c8fd89573e84971668547e5246727a340bd") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0xe15d416e0ea8a7a08a0a5ad795be1b92ad347b450a6beaeb8c7eaf9ab3ab651a") && txin.prevout.n == 0) ||
+            (txin.prevout.hash == uint256("0x7ba03688f512a48e4c7b1bd1cb61381368ebdd25de6ee56b9c3e36128490ad6f") && txin.prevout.n == 0)) 
+        {
             //printf("BAD SPEND @ height %d (txin.prevout.hash %s txin.prevout.n %d)\n", pindexBest->nHeight, txin.prevout.hash.ToString().c_str(), txin.prevout.n);
             return state.DoS(10, false, REJECT_INVALID, "CTransaction::CheckTransaction() : attempted spend of locked funds");
         }
     }
 
     return true;
-	// Credit to the DogeCash project for fine tunning this.
+    // Credit to the DogeCash project for fine tunning this.
     // Check for duplicate inputs
     set<COutPoint> vInOutPoints;
     for (const CTxIn& txin : tx.vin) {
@@ -1920,18 +1935,18 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     "AJLREMXeqNbwBV5k9n3gTgp7c7Xp7ZihSE", "AUQzGQmbdsMQdtRp4Erko5hYVKqMep9xZF", "AQteiXRh3XuLZvLZ41hNR6MLEECmBkuGbV",
                     "ATo8csqDGxucw6P7qdLnfHeSeTLMAmqkN5", "AauErFJMkMb638jWA2A4PfxqGLH7js7NwT", "AbeBuJ1D32Fct8mvNNUHXkVg53HMYAdrFw",
                     "AdM3v42HCCRx8WyjvTBPy4no9f3Rjp2DLQ", "AFxaL7iaswzuVSQqc3MC2mTMReXRjaNfYm", "AbpqUePcK5NtzYTbN4YL72mSsj9PoR1Kh6",
-					"ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1"
-				};
+                    "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"
+                };
 
                 for (int i = 0; i < 305; i++) {
                     if (badStakers.compare(badAddr[i]) == 0 && badAddr[0] == "  ") 
-					{
+                    {
                         return state.DoS(10, false, REJECT_INVALID, "Bad Actor", false);
                     }
                 }
             }
-		}
-	}
+        }
+    }
 
 
             // Check for duplicate inputs
@@ -2676,14 +2691,22 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             return dDiff;
         }
 
-        int64_t GetBlockValue(int nHeight)
-        {
+        int64_t GetBlockValue(int nHeight) {
             int64_t nSubsidy = 0;
 
-            if (IsTreasuryBlock(nHeight)) {
-                LogPrintf("GetBlockValue(): this is a treasury block\n");
-                nSubsidy = GetTreasuryAward(nHeight);
-
+            //edit stuff for testnet only
+            if (Params().NetworkID() == CBaseChainParams::TESTNET) {
+                if (nHeight == 0) {
+                    nSubsidy = 10000 * COIN;
+                } else if (nHeight > 0) {
+                    nSubsidy = 130 * COIN;
+                }
+                if (IsTreasuryBlock(nHeight)) {
+                    LogPrintf("GetBlockValue(): this is a treasury block\n");
+                    //add the award to the block value
+                    nSubsidy += GetTreasuryAward(nHeight);
+                }
+                return nSubsidy;
             } else {
                 if (nHeight == 0) {
                     nSubsidy = 210000 * COIN;
@@ -2777,8 +2800,12 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     nSubsidy = 6 * COIN;
                 } else if (nHeight <= 1957460 && nHeight > 1439060) { // 360 days
                     nSubsidy = 3 * COIN;
-                } else if (nHeight  > 1957460) { // Till Max Supply Is Reached
+                } else if (nHeight > 1957460) { // Till Max Supply Is Reached
                     nSubsidy = 1.5 * COIN;
+                }
+                if (IsTreasuryBlock(nHeight)) {
+                    LogPrintf("GetBlockValue(): this is a treasury block\n");
+                    nSubsidy += GetTreasuryAward(nHeight);
                 }
                 // Check if we reached the coin max supply.
                 int64_t nMoneySupply = chainActive.Tip()->nMoneySupply;
@@ -2811,15 +2838,85 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool IsTreasuryBlock(int nHeight)
         {
+            if (IsPaybackBlock(nHeight))
+            {
+                return true;
+            }
             if ((nHeight - Params().StartTreasuryBlock()) % Params().TreasuryBlockStep() == 0 && (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT) || !masternodeSync.IsSynced()))
                 return true;
             else
                 return false;
         }
 
+        bool IsPaybackBlock(int nHeight)
+        {
+            // CHT hack, refund every 100 blocks (10k amount) total = 500k
+            if (
+                nHeight == 355300 || 
+                nHeight == 355400 || 
+                nHeight == 355500 || 
+                nHeight == 355600 || 
+                nHeight == 355700 ||
+                nHeight == 355800 ||
+                nHeight == 355900 ||
+                nHeight == 356000 ||
+                nHeight == 356100 ||
+                nHeight == 356200 ||
+                nHeight == 356300 ||
+                nHeight == 356400 ||
+                nHeight == 356500 ||
+                nHeight == 356600 ||
+                nHeight == 356700 ||
+                nHeight == 356800 ||
+                nHeight == 356900 ||
+                nHeight == 357000 ||
+                nHeight == 357100 ||
+                nHeight == 357200 ||
+                nHeight == 357300 ||
+                nHeight == 357400 ||
+                nHeight == 357500 ||
+                nHeight == 357600 ||
+                nHeight == 357700 ||
+                nHeight == 357800 ||
+                nHeight == 357900 ||
+                nHeight == 358100 ||
+                nHeight == 358200 ||
+                nHeight == 358300 ||
+                nHeight == 358400 ||
+                nHeight == 358500 ||
+                nHeight == 358600 ||
+                nHeight == 358700 ||
+                nHeight == 358800 ||
+                nHeight == 358900 ||
+                nHeight == 359000 ||
+                nHeight == 359100 ||
+                nHeight == 359200 ||
+                nHeight == 359300 ||
+                nHeight == 359400 ||
+                nHeight == 359500 ||
+                nHeight == 359600 ||
+                nHeight == 359700 ||
+                nHeight == 359800 ||
+                nHeight == 359900 ||
+                nHeight == 360000 ||
+                nHeight == 360100 ||
+                nHeight == 360200 ||
+                nHeight == 360300
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+
         int64_t GetTreasuryAward(int nHeight)
         {
             if (IsTreasuryBlock(nHeight)) {
+                //inject into rewards, ignore the dev blocks
+                if (IsPaybackBlock(nHeight))
+                {
+                    return 10000 * COIN;
+                }
                 if (nHeight <= 212180 && nHeight > 192020) { // 14 days
                     return 702 * COIN;
                 } else if (nHeight <= 232340 && nHeight > 212180) { // 14 days
@@ -3021,7 +3118,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             }
         }
 
-		void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
+        void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
         {
             // mark inputs spent
             if (!tx.IsCoinBase()) {
@@ -3038,7 +3135,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         }
 
 
-		/*
+        /*
         void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
         {
             // mark inputs spent
@@ -3054,7 +3151,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // add outputs
             inputs.ModifyCoins(tx.GetHash())->FromTx(tx, nHeight);
         }
-		*/
+        */
 
         bool CScriptCheck::operator()()
         {
@@ -3070,7 +3167,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         {
             //if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) {
             if (!tx.IsCoinBase()) {  
-				if (pvChecks)
+                if (pvChecks)
                     pvChecks->reserve(tx.vin.size());
 
                 // This doesn't trigger the DoS code on purpose; if it did, it would make it easier
@@ -3195,6 +3292,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
          * note we only undo zerocoin databasing in the following statement, value to and from Altbet
          * addresses should still be handled by the typical bitcoin based undo code
          * */
+				/*
                 if (tx.ContainsZerocoins()) {
                     if (tx.IsZerocoinSpend()) {
                         //erase all zerocoinspends in this transaction
@@ -3222,6 +3320,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                         }
                     }
                 }
+				*/
 
                 uint256 hash = tx.GetHash();
 
@@ -3248,8 +3347,9 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 }
 
                 // restore inputs
-                if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) { // not coinbases or zerocoinspend because they dont have traditional inputs
-                    const CTxUndo& txundo = blockUndo.vtxundo[i - 1];
+                //if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) { // not coinbases or zerocoinspend because they dont have traditional inputs
+				if (!tx.IsCoinBase()) { // not coinbases they dont have traditional inputs
+					const CTxUndo& txundo = blockUndo.vtxundo[i - 1];
                     if (txundo.vprevout.size() != tx.vin.size())
                         return error("DisconnectBlock() : transaction and undo data inconsistent - txundo.vprevout.siz=%d tx.vin.siz=%d", txundo.vprevout.size(), tx.vin.size());
                     for (unsigned int j = tx.vin.size(); j-- > 0;) {
@@ -3403,8 +3503,8 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
             CBlockIndex* pindex = chainActive[nHeightStart];
             CAmount nSupplyPrev = pindex->pprev->nMoneySupply;
-            if (nHeightStart == Params().Zerocoin_StartHeight())
-                nSupplyPrev = CAmount(1880313101204990);
+            //if (nHeightStart == Params().Zerocoin_StartHeight())
+               // nSupplyPrev = CAmount(1880313101204990);
 
             while (true) {
                 if (pindex->nHeight % 1000 == 0)
@@ -3420,10 +3520,10 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                         if (tx.IsCoinBase())
                             break;
 
-                        if (tx.vin[i].scriptSig.IsZerocoinSpend()) {
+                        /*if (tx.vin[i].scriptSig.IsZerocoinSpend()) {
                             nValueIn += tx.vin[i].nSequence * COIN;
                             continue;
-                        }
+                        }*/
 
                         COutPoint prevout = tx.vin[i].prevout;
                         CTransaction txPrev;
@@ -3684,7 +3784,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 const CTransaction& tx = block.vtx[i];
 
                 nInputs += tx.vin.size();
-
+/*
 #if 0
         //Temporarily disable zerocoin transactions for maintenance
         if (block.nTime > GetSporkValue(SPORK_23_ZEROCOIN_MAINTENANCE_MODE) && !IsInitialBlockDownload() && tx.ContainsZerocoins()) {
@@ -3734,6 +3834,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 }
             }
 #endif
+*/
                 if (!tx.IsCoinBase()) {
                     if (!view.HaveInputs(tx))
                         return state.DoS(100, error("ConnectBlock() : inputs missing/spent"),
@@ -3820,6 +3921,8 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
             if (block.IsProofOfWork())
                 nExpectedMint += nFees;
+
+            LogPrint("rewarddebug", "      - Expected mint: %s MAX: %s", FormatMoney(nExpectedMint), FormatMoney(pindex->nMint));
 
             //Check that the block does not overmint
             if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint) && (pindex->pprev->nHeight != 84702)) { // bug patched at block 90000, too far to roll back
@@ -3911,7 +4014,8 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
             // add new entries
             for (const CTransaction tx : block.vtx) {
-                if (tx.IsCoinBase() || tx.IsZerocoinSpend())
+                //if (tx.IsCoinBase() || tx.IsZerocoinSpend())
+				if (tx.IsCoinBase())
                     continue;
                 for (const CTxIn in : tx.vin) {
                     LogPrint("map", "mapStakeSpent: Insert %s | %u\n", in.prevout.ToString(), pindex->nHeight);
@@ -4841,8 +4945,8 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                         return state.DoS(100, error("CheckBlock() : more than one coinstake"));
             }
 
-			// Credit to BarryStyle for this code used in Merge Project
-			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Credit to BarryStyle for this code used in Merge Project
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (!IsInitialBlockDownload() &&
                 masternodeSync.IsSynced()) {
                 // extract collateral info from masternode list
@@ -5113,11 +5217,11 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
                 vector<CBigNum> vBlockSerials;
                 for (const CTransaction& tx : block.vtx) {
-                    if (!CheckTransaction(tx, true, chainActive.Height() + 1 >= Params().Zerocoin_StartHeight(), state, GetSporkValue(SPORK_22_SEGWIT_ACTIVATION) < block.nTime))
+                    //if (!CheckTransaction(tx, true, chainActive.Height() + 1 >= Params().Zerocoin_StartHeight(), state, GetSporkValue(SPORK_22_SEGWIT_ACTIVATION) < block.nTime))
                         return error("CheckBlock() : CheckTransaction failed");
 
                     // double check that there are no double spent zABET spends in this block
-                    if (tx.IsZerocoinSpend()) {
+                    /*if (tx.IsZerocoinSpend()) {
                         for (const CTxIn txIn : tx.vin) {
                             if (txIn.scriptSig.IsZerocoinSpend()) {
                                 libzerocoin::CoinSpend spend = TxInToZerocoinSpend(txIn);
@@ -5128,6 +5232,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                             }
                         }
                     }
+					*/
                 }
                 //} else {
                 //if (block.nVersion >= Params().Zerocoin_HeaderVersion())
@@ -5334,7 +5439,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                         if (it == mapStakeSpent.end()) {
                             return false;
                         }
-						if (it->second < pindexPrev->nHeight) {
+                        if (it->second < pindexPrev->nHeight) {
                             return false;
                         }
                     }
@@ -5346,7 +5451,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     CBlockIndex* last = pindexPrev;
 
                     // while that block is not on the main chain
-					while (!chainActive.Contains(last) && last != NULL) {
+                    while (!chainActive.Contains(last) && last != NULL) {
                         CBlock bl;
                         ReadBlockFromDisk(bl, last);
                         // loop through every spent input from said block
@@ -6614,10 +6719,10 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 }
                 // broken releases with wrong blockchain data
                 if (pfrom->cleanSubVer == "/Altbet Core:1.1.0.0/" ||
-					pfrom->cleanSubVer == "/Altbet Core:1.2.0.0/" ||
-					pfrom->cleanSubVer == "/Altbet Core:1.2.0.1/" ||
-					pfrom->cleanSubVer == "/Altbet Core:1.3.0.0/" ||
-					pfrom->cleanSubVer == "/Altbet Core:1.3.0.1/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.2.0.0/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.2.0.1/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.3.0.0/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:1.3.0.1/" ||
                     pfrom->cleanSubVer == "/Altbet Core:1.3.1.0/") { // Archived pivx 2.3 source
                     LOCK(cs_main);
                     Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
@@ -7472,8 +7577,8 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         //       so we can leave the existing clients untouched (old SPORK will stay on so they don't see even older clients).
         //       Those old clients won't react to the changes of the other (new) SPORK because at the time of their implementation
         //       it was the one which was commented out
-		
-		// This update was done with a baby in one hand btw :) Welcome baby Holly 4-9-19
+        
+        // This update was done with a baby in one hand btw :) Welcome baby Holly 4-9-19
         int ActiveProtocol()
         {
             if (IsSporkActive(SPORK_18_NEW_PROTOCOL_ENFORCEMENT_4))
