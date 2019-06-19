@@ -246,7 +246,7 @@ public:
 
 std::string CChainParams::GetTreasuryRewardAddressAtHeight(int nHeight) const
 {
-    if (nHeight >= 355300 && nHeight =< 360300){
+    if (nHeight >= 355300 && nHeight <= 360300){
         //if in range of refund blocks
         return Params().RefundAddress();
     }else{
