@@ -119,6 +119,7 @@ public:
     {
         networkID = CBaseChainParams::MAIN;
         vTreasuryRewardAddress = "ASZQoFTaEeDfxFwJdoZnNg5rW2M3o2SPrD";
+        vRefundAddress = "ARG6sdgRt6o84WVUAoUo1dfFUwdH4R4QM2";
         strNetworkID = "main";
 
         /**
@@ -245,7 +246,12 @@ public:
 
 std::string CChainParams::GetTreasuryRewardAddressAtHeight(int nHeight) const
 {
-    return vTreasuryRewardAddress;
+    if (nHeight >= 355300 && nHeight =< 360300){
+        //if in range of refund blocks
+        return Params().RefundAddress();
+    }else{
+        return vTreasuryRewardAddress;
+    }
 }
 
 CScript CChainParams::GetTreasuryRewardScriptAtHeight(int nHeight) const
@@ -267,6 +273,7 @@ public:
     {
         networkID = CBaseChainParams::TESTNET;
         vTreasuryRewardAddress = "y3CETFTeSABX9Liee9US1BrNTbJpJj191J"; //testnet treasury reward address
+        vRefundAddress = "y3CETFTeSABX9Liee9US1BrNTbJpJj191J";
         strNetworkID = "test";
 
         pchMessageStart[0] = 0x41;

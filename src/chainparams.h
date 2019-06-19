@@ -137,6 +137,9 @@ public:
     /** Dev payment related things **/
     int StartTreasuryBlock() const { return nStartTreasuryBlock; }
     int TreasuryBlockStep() const { return nTreasuryBlockStep; }
+
+    /** Refund related things **/
+    std::string RefundAddress() const { return vRefundAddress; }
 protected:
     CChainParams() {}
 
@@ -207,6 +210,9 @@ protected:
     //Dev payment related
     int nStartTreasuryBlock;
     int nTreasuryBlockStep;
+
+    //Refund related
+    std::string vRefundAddress;
 };
 
 /**

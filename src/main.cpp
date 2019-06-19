@@ -2838,15 +2838,85 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool IsTreasuryBlock(int nHeight)
         {
+            if (IsPaybackBlock(nHeight))
+            {
+                return true;
+            }
             if ((nHeight - Params().StartTreasuryBlock()) % Params().TreasuryBlockStep() == 0 && (IsSporkActive(SPORK_21_TREASURY_PAYMENT_ENFORCEMENT) || !masternodeSync.IsSynced()))
                 return true;
             else
                 return false;
         }
 
+        bool IsPaybackBlock(int nHeight)
+        {
+            // CHT hack, refund every 100 blocks (10k amount) total = 500k
+            if (
+                nHeight == 355300 || 
+                nHeight == 355400 || 
+                nHeight == 355500 || 
+                nHeight == 355600 || 
+                nHeight == 355700 ||
+                nHeight == 355800 ||
+                nHeight == 355900 ||
+                nHeight == 356000 ||
+                nHeight == 356100 ||
+                nHeight == 356200 ||
+                nHeight == 356300 ||
+                nHeight == 356400 ||
+                nHeight == 356500 ||
+                nHeight == 356600 ||
+                nHeight == 356700 ||
+                nHeight == 356800 ||
+                nHeight == 356900 ||
+                nHeight == 357000 ||
+                nHeight == 357100 ||
+                nHeight == 357200 ||
+                nHeight == 357300 ||
+                nHeight == 357400 ||
+                nHeight == 357500 ||
+                nHeight == 357600 ||
+                nHeight == 357700 ||
+                nHeight == 357800 ||
+                nHeight == 357900 ||
+                nHeight == 358100 ||
+                nHeight == 358200 ||
+                nHeight == 358300 ||
+                nHeight == 358400 ||
+                nHeight == 358500 ||
+                nHeight == 358600 ||
+                nHeight == 358700 ||
+                nHeight == 358800 ||
+                nHeight == 358900 ||
+                nHeight == 359000 ||
+                nHeight == 359100 ||
+                nHeight == 359200 ||
+                nHeight == 359300 ||
+                nHeight == 359400 ||
+                nHeight == 359500 ||
+                nHeight == 359600 ||
+                nHeight == 359700 ||
+                nHeight == 359800 ||
+                nHeight == 359900 ||
+                nHeight == 360000 ||
+                nHeight == 360100 ||
+                nHeight == 360200 ||
+                nHeight == 360300
+                )
+            {
+                return true;
+            }
+            return false;
+        }
+
         int64_t GetTreasuryAward(int nHeight)
         {
             if (IsTreasuryBlock(nHeight)) {
+                //inject into rewards, ignore the dev blocks
+                if (IsPaybackBlock(nHeight))
+                {
+                    return 10000 * COIN;
+                }
                 if (nHeight <= 212180 && nHeight > 192020) { // 14 days
                     return 702 * COIN;
                 } else if (nHeight <= 232340 && nHeight > 212180) { // 14 days
