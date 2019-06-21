@@ -15,7 +15,8 @@
 // Initial Rewards Fix on 72001 by TFinch
 // Exchange version, GUI update with chart 72004 TFinch
 // Min Stake Amount changed to 15 coins 72005 TFinch
-static const int PROTOCOL_VERSION = 72010;
+// CHT hack was 72010 TFinch
+static const int PROTOCOL_VERSION = 72011;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
@@ -24,8 +25,8 @@ static const int INIT_PROTO_VERSION = 209;
 static const int GETHEADERS_VERSION = 70077;
 
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT = 72009;
-static const int MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT = 72010;
+static const int MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT = 72010;
+static const int MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT = 72011;
 
 static const int MIN_PEER_VERSION_FIXED_SIGTIME = 72006;
 

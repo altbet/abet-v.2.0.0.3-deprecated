@@ -18,7 +18,7 @@ const std::string CLIENT_NAME("Altbet Core");
 /**
  * Client version number
  */
-#define CLIENT_VERSION_SUFFIX "v2.0.1"
+#define CLIENT_VERSION_SUFFIX "v2.0.0.4"
 
 
 /**
