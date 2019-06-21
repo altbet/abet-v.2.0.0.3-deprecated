@@ -1,13 +1,13 @@
 1.3.1 Release notes
 ====================
 
-Altbet Core version 1.3.1 is now available from:
+Phore Core version 1.3.1 is now available from:
 
-  https://altbet.io/
+  https://phore.io/
 
 Please report bugs using the issue tracker at github:
 
-  https://github.com/altbetproject/altbet/issues
+  https://github.com/phoreproject/phore/issues
 
 
 How to Upgrade
@@ -15,8 +15,8 @@ How to Upgrade
 
 If you are running an older version, shut it down. Wait until it has completely
 shut down (which might take a few minutes for older versions), then run the
-installer (on Windows) or just copy over /Applications/Altbet-Qt (on Mac) or
-altbetd/altbet-qt (on Linux).
+installer (on Windows) or just copy over /Applications/Phore-Qt (on Mac) or
+phored/phore-qt (on Linux).
 
 
 1.3.1 changelog
