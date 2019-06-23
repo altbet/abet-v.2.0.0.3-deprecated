@@ -1815,8 +1815,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             return state.DoS(10, false, REJECT_INVALID, "CTransaction::CheckTransaction() : attempted spend of locked funds");
         }
     }
-
-    return true;
+	// Thank you Dimitry#1055 for pointing the error out here 
     // Credit to the DogeCash project for fine tunning this.
     // Check for duplicate inputs
     set<COutPoint> vInOutPoints;
@@ -1936,16 +1935,17 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     "ATo8csqDGxucw6P7qdLnfHeSeTLMAmqkN5", "AauErFJMkMb638jWA2A4PfxqGLH7js7NwT", "AbeBuJ1D32Fct8mvNNUHXkVg53HMYAdrFw",
                     "AdM3v42HCCRx8WyjvTBPy4no9f3Rjp2DLQ", "AFxaL7iaswzuVSQqc3MC2mTMReXRjaNfYm", "AbpqUePcK5NtzYTbN4YL72mSsj9PoR1Kh6",
                     "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP",
-					"AQEG3nKqHLUaz9RfbSBrVyMt2CFtvrLXah", "ALt9hvrffk1Fd6nc9DRBmJAv9U5QLQetjs", "AMxkEWzSHrgDfENpGyhyKrCWLgsroaLHN3",
-					"AQKrLpkqxfNvAM8YuQxDX7yLjXZL6wJjrF", "AbDrXLbMuTdkGSTX5az92rPMCbN7SGnpmE", "Abum4FTHQL5WqK4i7j76EpeKXGkFg4AgzY", 
-					"APUNdiSCujpR5joFrQgsQC9yFQuwCf7xka", "AX5TnMPdKHmcQFVMVu66MaWeKhTM1Fu6EB", "ALeTrGDD1uGQ1EDKN7fNA9W3F3BpXoyvKY", 
-					"AQFvsnYvyD6QDJyB6oejPaqPAyQMHs12c3", "ATmpDV9bNnXYA3n1AfmsJEsu56Wvd2MD9J", "AK3cAaNvQq8pYa5AnB1vKC6JmkvzfRCULt", 
-					"AKxiQDXwJBzMN6gnWK1ANSz4YLF98Qx82h", "AMDiqnubdbimtKvKbQ19irwjFb2GdgCBHG", "AS9F2S2HzAPVapqnr4rDmGpdnDPK7o9d9Z", 
-					"ARiYJqtzBu6zAfribwxjvs7xSewEWwJWjk", "AdgnktNMD4wcSFtNwXHyi7hUUzSHvNeDHj", "Acu2m9cJDuzi7oVHj2cF3F4sQtXBNKN1NB", 
-					"ALqyDgyYqbuWd6M6fjHMxXBsEShGCDSWXu", "AcQFju3WvMPMUSRw1MeQ5vmHqxgEKMzx7K", "APNMLpDie8tQs4Adq4DmKWsyvrzy8d3xGH", 
-					"AJ3dMK5CVcJTRAbURkbsCqvKbb1Kb5oP2X", "AJNPGtLAQNAHLALVuFYoY5Go5qyT3U4GCq", "AWeL3q1D4y8rkEPGiFzhxrpaNbGDHp6Z72", 
-					"AJVNMQWgxz4nJHEPDGeXmT7DS36KsUCHgw", "AZrRdRRbXXNnJEfLXinhxBbLcwb287dUhp", "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", 
-                    "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"
+                    //GTM address start here and are all the below address' All funds have been moved but kept for history for now.
+					          "AQEG3nKqHLUaz9RfbSBrVyMt2CFtvrLXah", "ALt9hvrffk1Fd6nc9DRBmJAv9U5QLQetjs", "AMxkEWzSHrgDfENpGyhyKrCWLgsroaLHN3",
+					          "AQKrLpkqxfNvAM8YuQxDX7yLjXZL6wJjrF", "AbDrXLbMuTdkGSTX5az92rPMCbN7SGnpmE", "Abum4FTHQL5WqK4i7j76EpeKXGkFg4AgzY", 
+					          "APUNdiSCujpR5joFrQgsQC9yFQuwCf7xka", "AX5TnMPdKHmcQFVMVu66MaWeKhTM1Fu6EB", "ALeTrGDD1uGQ1EDKN7fNA9W3F3BpXoyvKY", 
+					          "AQFvsnYvyD6QDJyB6oejPaqPAyQMHs12c3", "ATmpDV9bNnXYA3n1AfmsJEsu56Wvd2MD9J", "AK3cAaNvQq8pYa5AnB1vKC6JmkvzfRCULt", 
+					          "AKxiQDXwJBzMN6gnWK1ANSz4YLF98Qx82h", "AMDiqnubdbimtKvKbQ19irwjFb2GdgCBHG", "AS9F2S2HzAPVapqnr4rDmGpdnDPK7o9d9Z", 
+					          "ARiYJqtzBu6zAfribwxjvs7xSewEWwJWjk", "AdgnktNMD4wcSFtNwXHyi7hUUzSHvNeDHj", "Acu2m9cJDuzi7oVHj2cF3F4sQtXBNKN1NB", 
+					          "ALqyDgyYqbuWd6M6fjHMxXBsEShGCDSWXu", "AcQFju3WvMPMUSRw1MeQ5vmHqxgEKMzx7K", "APNMLpDie8tQs4Adq4DmKWsyvrzy8d3xGH", 
+					          "AJ3dMK5CVcJTRAbURkbsCqvKbb1Kb5oP2X", "AJNPGtLAQNAHLALVuFYoY5Go5qyT3U4GCq", "AWeL3q1D4y8rkEPGiFzhxrpaNbGDHp6Z72", 
+					          "AJVNMQWgxz4nJHEPDGeXmT7DS36KsUCHgw", "AZrRdRRbXXNnJEfLXinhxBbLcwb287dUhp", "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", 
+                    "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"						
                 };
 
                 for (int i = 0; i < 305; i++) {
@@ -3133,7 +3133,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // mark inputs spent
             if (!tx.IsCoinBase()) {
                 txundo.vprevout.reserve(tx.vin.size());
-                BOOST_FOREACH (const CTxIn& txin, tx.vin) {
+				for (const CTxIn& txin : tx.vin) {
                     txundo.vprevout.push_back(CTxInUndo());
                     bool ret = inputs.ModifyCoins(txin.prevout.hash)->Spend(txin.prevout, txundo.vprevout.back());
                     assert(ret);
@@ -6733,7 +6733,9 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     pfrom->cleanSubVer == "/Altbet Core:1.2.0.1/" ||
                     pfrom->cleanSubVer == "/Altbet Core:1.3.0.0/" ||
                     pfrom->cleanSubVer == "/Altbet Core:1.3.0.1/" ||
-                    pfrom->cleanSubVer == "/Altbet Core:1.3.1.0/") { // Archived pivx 2.3 source
+                    pfrom->cleanSubVer == "/Altbet Core:1.3.1.0/" ||// Archived pivx 2.3 source
+                    pfrom->cleanSubVer == "/Altbet Core:2.0.0.1/" ||
+                    pfrom->cleanSubVer == "/Altbet Core:2.0.0.2/") { // Release where CHT got compromised
                     LOCK(cs_main);
                     Misbehaving(pfrom->GetId(), 100); // instantly ban them because they have bad block data
                     return false;
@@ -7592,7 +7594,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 		// CHT Hack update
         int ActiveProtocol()
         {
-            if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
+            if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
                 return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
             return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
         }
