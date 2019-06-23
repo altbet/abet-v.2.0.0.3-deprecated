@@ -3133,7 +3133,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // mark inputs spent
             if (!tx.IsCoinBase()) {
                 txundo.vprevout.reserve(tx.vin.size());
-                BOOST_FOREACH (const CTxIn& txin, tx.vin) {
+				for (const CTxIn& txin : tx.vin) {
                     txundo.vprevout.push_back(CTxInUndo());
                     bool ret = inputs.ModifyCoins(txin.prevout.hash)->Spend(txin.prevout, txundo.vprevout.back());
                     assert(ret);
@@ -7594,7 +7594,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 		// CHT Hack update
         int ActiveProtocol()
         {
-            if (IsSporkActive(SPORK_17_NEW_PROTOCOL_ENFORCEMENT_3))
+            if (IsSporkActive(SPORK_14_NEW_PROTOCOL_ENFORCEMENT))
                 return MIN_PEER_PROTO_VERSION_AFTER_ENFORCEMENT;
             return MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT;
         }
