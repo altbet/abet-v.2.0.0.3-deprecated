@@ -1831,7 +1831,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         CTxDestination source;
         //make sure the previous input exists
         if (txPrev.vout.size() > txin.prevout.n) {
-            if (chainActive.Height() >= 156000 && ActiveProtocol() < INVALIDATE_REWORK)) {
+            if (chainActive.Height() >= 156000 && ActiveProtocol() < INVALIDATE_REWORK) {
                 // extract the destination of the previous transactions vout[n]
                 ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
 
