@@ -36,6 +36,7 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
+#include "version.h"
 
 #include "accumulatormap.h"
 #include "libzerocoin/Denominations.h"
@@ -1798,11 +1799,13 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             (txin.prevout.hash == uint256("0xe45f98571e742504deaf772e709e912addbe050ef6626a45562ef9e2540587df") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x008ea832b9bfa625f414daef234f2e94b3f23c78889419b516ffe9edddfc35c6") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x46df6a02227b7ddf0c28cfaba501f61235b2404ebfe583d7502d1bd69e9edac0") && txin.prevout.n == 0) ||
-
             (txin.prevout.hash == uint256("0xe17db55c3b81454d61a2bbca2732f4b291132d4daab58a812dbbf6afdad14112") && txin.prevout.n == 0) ||
-            (txin.prevout.hash == uint256("0x977e842747e0f2448a3dd75db839f517d7a569baf2fcede1e1d3c1d1778ab7f6") && txin.prevout.n == 0) ||
-            (txin.prevout.hash == uint256("0xf2f49756ca4f7d67c4729bd1197f254fe96fe3f9e9b53262da3bca98496bcc21") && txin.prevout.n == 0) ||
-            (txin.prevout.hash == uint256("0x4d32d2f170d6ff2a4946143399db82b5fddf4241a423d5c279e79b4e32d6be48") && txin.prevout.n == 0) ||
+            //First CB TXID Below
+			      (txin.prevout.hash == uint256("0x977e842747e0f2448a3dd75db839f517d7a569baf2fcede1e1d3c1d1778ab7f6") && txin.prevout.n == 0) ||
+            //Second CB TXID Below
+			      (txin.prevout.hash == uint256("0xf2f49756ca4f7d67c4729bd1197f254fe96fe3f9e9b53262da3bca98496bcc21") && txin.prevout.n == 0) ||
+            
+			      (txin.prevout.hash == uint256("0x4d32d2f170d6ff2a4946143399db82b5fddf4241a423d5c279e79b4e32d6be48") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x79a7fb01b78f306df480d93ed054ad6544d1894f74ca200350476943689e9e1a") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0xe1d218642304b5bda5228a72ef21f8eee7fcc7b2c46c793dc59ec09c8da85a6e") && txin.prevout.n == 0) ||
             (txin.prevout.hash == uint256("0x7156de85d34549e793adf016276f262b836c429291642c3239ef4c957447977a") && txin.prevout.n == 0) ||
@@ -1828,12 +1831,13 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
         CTxDestination source;
         //make sure the previous input exists
         if (txPrev.vout.size() > txin.prevout.n) {
-            if (chainActive.Height() >= 156000 || (IsSporkActive(SPORK_19_BAD_ACTOR_ENFORCEMENT))) {
+            if (chainActive.Height() >= 156000 && ActiveProtocol() < INVALIDATE_REWORK) {
                 // extract the destination of the previous transactions vout[n]
                 ExtractDestination(txPrev.vout[txin.prevout.n].scriptPubKey, source);
 
                 std::string badStakers = EncodeDestination(source);
-                const char badAddr[335][35] = {"  ", "AeS8deM1XWh2embVkkTEJSABhT9sgEjDY7", "AaBezQNQVt2jLmji8Nu3RMz5NFu2XxCbnv",
+                const char badAddr[335][35] = {"AeS8deM1XWh2embVkkTEJSABhT9sgEjDY7", "AaBezQNQVt2jLmji8Nu3RMz5NFu2XxCbnv",
+
                     "AaBXoKEHhjxEXGkE2NUymYg1SxZm1k1mfw", "Aae7h7dPHypikAQHC5mC5uFCxhmE6FQrUb", "AajgZNr39CLHG4hHtaB2kYp2qmssfnsdyJ",
                     "AaLjTg7JT71gAbTDCxKvJYs5GAqnTWawYB", "AaoiXuy7J82u32vhvGEMKfDRHUurwTWMWv", "AaoZ4etvzLaomVSJP18Cz9BpmyGNRZeUKC",
                     "AasnyCdas2qpckVixTNAuCoGmp9pibP9Mz", "AaUN23VJv6VNHbNfCcUqL8tjtc7nwwRkqC", "AazmnoVLjE8ASJ1WeTq2znSQzNButy4HEU",
@@ -1934,27 +1938,23 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     "AJLREMXeqNbwBV5k9n3gTgp7c7Xp7ZihSE", "AUQzGQmbdsMQdtRp4Erko5hYVKqMep9xZF", "AQteiXRh3XuLZvLZ41hNR6MLEECmBkuGbV",
                     "ATo8csqDGxucw6P7qdLnfHeSeTLMAmqkN5", "AauErFJMkMb638jWA2A4PfxqGLH7js7NwT", "AbeBuJ1D32Fct8mvNNUHXkVg53HMYAdrFw",
                     "AdM3v42HCCRx8WyjvTBPy4no9f3Rjp2DLQ", "AFxaL7iaswzuVSQqc3MC2mTMReXRjaNfYm", "AbpqUePcK5NtzYTbN4YL72mSsj9PoR1Kh6",
-                    "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP",
-                    //GTM address start here and are all the below address' All funds have been moved but kept for history for now.
-					          "AQEG3nKqHLUaz9RfbSBrVyMt2CFtvrLXah", "ALt9hvrffk1Fd6nc9DRBmJAv9U5QLQetjs", "AMxkEWzSHrgDfENpGyhyKrCWLgsroaLHN3",
-					          "AQKrLpkqxfNvAM8YuQxDX7yLjXZL6wJjrF", "AbDrXLbMuTdkGSTX5az92rPMCbN7SGnpmE", "Abum4FTHQL5WqK4i7j76EpeKXGkFg4AgzY", 
-					          "APUNdiSCujpR5joFrQgsQC9yFQuwCf7xka", "AX5TnMPdKHmcQFVMVu66MaWeKhTM1Fu6EB", "ALeTrGDD1uGQ1EDKN7fNA9W3F3BpXoyvKY", 
-					          "AQFvsnYvyD6QDJyB6oejPaqPAyQMHs12c3", "ATmpDV9bNnXYA3n1AfmsJEsu56Wvd2MD9J", "AK3cAaNvQq8pYa5AnB1vKC6JmkvzfRCULt", 
-					          "AKxiQDXwJBzMN6gnWK1ANSz4YLF98Qx82h", "AMDiqnubdbimtKvKbQ19irwjFb2GdgCBHG", "AS9F2S2HzAPVapqnr4rDmGpdnDPK7o9d9Z", 
-					          "ARiYJqtzBu6zAfribwxjvs7xSewEWwJWjk", "AdgnktNMD4wcSFtNwXHyi7hUUzSHvNeDHj", "Acu2m9cJDuzi7oVHj2cF3F4sQtXBNKN1NB", 
-					          "ALqyDgyYqbuWd6M6fjHMxXBsEShGCDSWXu", "AcQFju3WvMPMUSRw1MeQ5vmHqxgEKMzx7K", "APNMLpDie8tQs4Adq4DmKWsyvrzy8d3xGH", 
-					          "AJ3dMK5CVcJTRAbURkbsCqvKbb1Kb5oP2X", "AJNPGtLAQNAHLALVuFYoY5Go5qyT3U4GCq", "AWeL3q1D4y8rkEPGiFzhxrpaNbGDHp6Z72", 
-					          "AJVNMQWgxz4nJHEPDGeXmT7DS36KsUCHgw", "AZrRdRRbXXNnJEfLXinhxBbLcwb287dUhp", "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", 
-                    "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m", "AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"						
+                    "ASt6SJUdLEQjFwyE2ifnVuoKq9TwGq3vn1", "AMHUKYfjNAgHzBLz6fEhLW5WJg6weRPZ4m"
+					          //Below is the CB address
+					          //"AQJqFgQkv7KLbxbBWFJFkwDFJD7AFx3eHP"						
+
                 };
 
                 for (int i = 0; i < 305; i++) {
-                    if (badStakers.compare(badAddr[i]) == 0 && badAddr[0] == "  ") 
+                    //if (badStakers.compare(badAddr[i]) == 0 && badAddr[0] == " ") 
+					if(BadAddr.find(EncodeDestination(source)) != BadAddr.end())
                     {
                         return state.DoS(10, false, REJECT_INVALID, "Bad Actor", false);
                     }
                 }
-            }
+			}else if (IsSporkActive(SPORK_19_BAD_ACTOR_ENFORCEMENT) && ActiveProtocol() >= INVALIDATE_REWORK) {
+				return true;
+			
+			}
         }
     }
 
@@ -3133,7 +3133,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // mark inputs spent
             if (!tx.IsCoinBase()) {
                 txundo.vprevout.reserve(tx.vin.size());
-				for (const CTxIn& txin : tx.vin) {
+				        for (const CTxIn& txin : tx.vin) {
                     txundo.vprevout.push_back(CTxInUndo());
                     bool ret = inputs.ModifyCoins(txin.prevout.hash)->Spend(txin.prevout, txundo.vprevout.back());
                     assert(ret);
@@ -3143,25 +3143,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             // add outputs
             inputs.ModifyCoins(tx.GetHash())->FromTx(tx, nHeight);
         }
-
-
-        /*
-        void UpdateCoins(const CTransaction& tx, CValidationState& state, CCoinsViewCache& inputs, CTxUndo& txundo, int nHeight)
-        {
-            // mark inputs spent
-            if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) {
-                txundo.vprevout.reserve(tx.vin.size());
-                BOOST_FOREACH (const CTxIn& txin, tx.vin) {
-                    txundo.vprevout.push_back(CTxInUndo());
-                    bool ret = inputs.ModifyCoins(txin.prevout.hash)->Spend(txin.prevout, txundo.vprevout.back());
-                    assert(ret);
-                }
-            }
-
-            // add outputs
-            inputs.ModifyCoins(tx.GetHash())->FromTx(tx, nHeight);
-        }
-        */
 
         bool CScriptCheck::operator()()
         {
@@ -3175,7 +3156,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
 
         bool CheckInputs(const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, bool fScriptChecks, unsigned int flags, bool cacheStore, std::vector<CScriptCheck>* pvChecks)
         {
-            //if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) {
             if (!tx.IsCoinBase()) {  
                 if (pvChecks)
                     pvChecks->reserve(tx.vin.size());
@@ -3209,6 +3189,19 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                     if (!MoneyRange(coins->vout[prevout.n].nValue) || !MoneyRange(nValueIn))
                         return state.DoS(100, error("CheckInputs() : txin values out of range"),
                             REJECT_INVALID, "bad-txns-inputvalues-outofrange");
+
+					if (IsSporkActive(SPORK_19_BAD_ACTOR_ENFORCEMENT) && ActiveProtocol() >= INVALIDATE_REWORK) {
+                    //if (IsSporkActive(SPORK_19_BAD_ACTOR_ENFORCEMENT)) {
+						for (CTxOut prevOut : coins->vout) {
+							if (prevOut.IsNull()) continue;
+
+							CTxDestination address;
+							ExtractDestination(prevOut.scriptPubKey, address);
+							if (BadAddr.find(EncodeDestination(address)) != BadAddr.end()) {
+								return state.Invalid(error("CheckInputs() : Attempt to spend a blocked address"));
+							}
+						}
+					}
                 }
 
                 if (!tx.IsCoinStake()) {
@@ -3298,40 +3291,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
             for (int i = block.vtx.size() - 1; i >= 0; i--) {
                 const CTransaction& tx = block.vtx[i];
 
-                /** UNDO ZEROCOIN DATABASING
-         * note we only undo zerocoin databasing in the following statement, value to and from Altbet
-         * addresses should still be handled by the typical bitcoin based undo code
-         * */
-				/*
-                if (tx.ContainsZerocoins()) {
-                    if (tx.IsZerocoinSpend()) {
-                        //erase all zerocoinspends in this transaction
-                        for (const CTxIn txin : tx.vin) {
-                            if (txin.scriptSig.IsZerocoinSpend()) {
-                                CoinSpend spend = TxInToZerocoinSpend(txin);
-                                if (!zerocoinDB->EraseCoinSpend(spend.getCoinSerialNumber()))
-                                    return error("failed to erase spent zerocoin in block");
-                            }
-                        }
-                    }
-                    if (tx.IsZerocoinMint()) {
-                        //erase all zerocoinmints in this transaction
-                        for (const CTxOut txout : tx.vout) {
-                            if (txout.scriptPubKey.empty() || !txout.scriptPubKey.IsZerocoinMint())
-                                continue;
-
-
-                            PublicCoin pubCoin(Params().Zerocoin_Params());
-                            if (!TxOutToPublicCoin(txout, pubCoin, state))
-                                return error("DisconnectBlock(): TxOutToPublicCoin() failed");
-
-                            if (!zerocoinDB->EraseCoinMint(pubCoin.getValue()))
-                                return error("DisconnectBlock(): Failed to erase coin mint");
-                        }
-                    }
-                }
-				*/
-
                 uint256 hash = tx.GetHash();
 
                 // Check that all outputs are available and match the outputs in the block itself
@@ -3357,8 +3316,7 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 }
 
                 // restore inputs
-                //if (!tx.IsCoinBase() && !tx.IsZerocoinSpend()) { // not coinbases or zerocoinspend because they dont have traditional inputs
-				if (!tx.IsCoinBase()) { // not coinbases they dont have traditional inputs
+               if (!tx.IsCoinBase()) { // not coinbases they dont have traditional inputs
 					const CTxUndo& txundo = blockUndo.vtxundo[i - 1];
                     if (txundo.vprevout.size() != tx.vin.size())
                         return error("DisconnectBlock() : transaction and undo data inconsistent - txundo.vprevout.siz=%d tx.vin.siz=%d", txundo.vprevout.size(), tx.vin.size());
@@ -3794,57 +3752,6 @@ bool CheckTransaction(const CTransaction& tx, bool fZerocoinActive, bool fReject
                 const CTransaction& tx = block.vtx[i];
 
                 nInputs += tx.vin.size();
-/*
-#if 0
-        //Temporarily disable zerocoin transactions for maintenance
-        if (block.nTime > GetSporkValue(SPORK_23_ZEROCOIN_MAINTENANCE_MODE) && !IsInitialBlockDownload() && tx.ContainsZerocoins()) {
-            return state.DoS(100, error("ConnectBlock() : zerocoin transactions are currently in maintenance mode"));
-        }
-        if (tx.IsZerocoinSpend()) {
-            int nHeightTx = 0;
-            uint256 txid = tx.GetHash();
-            vSpendsInBlock.emplace_back(txid);
-            if (IsTransactionInChain(tx.GetHash(), nHeightTx)) {
-                //when verifying blocks on init, the blocks are scanned without being disconnected - prevent that from causing an error
-                if (!fVerifyingBlocks || (fVerifyingBlocks && pindex->nHeight > nHeightTx))
-                    return state.DoS(100, error("%s : txid %s already exists in block %d , trying to include it again in block %d", __func__,
-                                                tx.GetHash().GetHex(), nHeightTx, pindex->nHeight),
-                                     REJECT_INVALID, "bad-txns-inputs-missingorspent");
-            }
-
-            //Check for double spending of serial #'s
-            set<CBigNum> setSerials;
-            for (const CTxIn& txIn : tx.vin) {
-                if (!txIn.scriptSig.IsZerocoinSpend())
-                    continue;
-                CoinSpend spend = TxInToZerocoinSpend(txIn);
-                nValueIn += spend.getDenomination() * COIN;
-
-                //queue for db write after the 'justcheck' section has concluded
-                vSpends.emplace_back(make_pair(spend, tx.GetHash()));
-
-                if (!ContextualCheckZerocoinSpend(tx, spend, pindex, hashBlock))
-                    return state.DoS(100, error("%s: failed to add block %s with invalid zerocoinspend", __func__, tx.GetHash().GetHex()), REJECT_INVALID);
-                }
-
-            // Check that zABET mints are not already known
-            if (tx.IsZerocoinMint()) {
-                for (auto& out : tx.vout) {
-                    if (!out.IsZerocoinMint())
-                        continue;
-
-                    PublicCoin coin(Params().Zerocoin_Params());
-                    if (!TxOutToPublicCoin(out, coin, state))
-                        return state.DoS(100, error("%s: failed final check of zerocoinmint for tx %s", __func__, tx.GetHash().GetHex()));
-
-                    if (!ContextualCheckZerocoinMint(tx, coin, pindex))
-                        return state.DoS(100, error("%s: zerocoin mint failed contextual check", __func__));
-
-                    vMints.emplace_back(make_pair(coin, tx.GetHash()));
-                }
-            }
-#endif
-*/
                 if (!tx.IsCoinBase()) {
                     if (!view.HaveInputs(tx))
                         return state.DoS(100, error("ConnectBlock() : inputs missing/spent"),
